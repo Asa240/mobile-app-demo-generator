@@ -1,1 +1,0 @@
-# mobile-app-demo-generator
