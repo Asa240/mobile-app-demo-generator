@@ -1,0 +1,2546 @@
+<!DOCTYPE html>
+<!-- GitHub Pages Ready - Mobile App Demo Generator v3.0 -->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mobile App Demo Generator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 30px;
+            height: calc(100vh - 40px);
+        }
+
+        @media (max-width: 1200px) {
+            .container {
+                grid-template-columns: 1fr 350px;
+                gap: 20px;
+            }
+        }
+
+        @media (max-width: 900px) {
+            .container {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+        }
+
+        .config-panel {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            overflow-y: auto;
+        }
+
+        .preview-panel {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .section {
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 8px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #555;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e1e5e9;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .color-picker {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .color-input {
+            width: 60px !important;
+            height: 40px;
+            padding: 0;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .industry-templates {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .template-card {
+            border: 2px solid #e1e5e9;
+            border-radius: 8px;
+            padding: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+        }
+
+        .template-card:hover {
+            border-color: #667eea;
+            transform: translateY(-2px);
+        }
+
+        .template-card.selected {
+            border-color: #667eea;
+            background: #f0f4ff;
+        }
+
+        .template-icon {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .template-name {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .template-desc {
+            font-size: 12px;
+            color: #666;
+        }
+
+        .preview-container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #f8f9fa;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+
+        .phone-container {
+            width: 325px;
+            height: 650px;
+            background: #000;
+            border-radius: 32px;
+            padding: 6px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            position: relative;
+        }
+
+        .phone-screen {
+            width: 100%;
+            height: 100%;
+            background: #fff;
+            border-radius: 26px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .status-bar {
+            height: 44px;
+            background: var(--primary-color, #1a365d);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            color: white;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .app-header {
+            background: linear-gradient(135deg, var(--primary-color, #1a365d) 0%, var(--secondary-color, #2d5aa0) 100%);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .tagline {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .main-content {
+            padding: 24px;
+            height: calc(100% - 140px);
+            overflow-y: auto;
+        }
+
+        .welcome-title {
+            font-size: 28px;
+            font-weight: bold;
+            color: var(--primary-color, #1a365d);
+            margin-bottom: 8px;
+            text-align: center;
+        }
+
+        .welcome-subtitle {
+            font-size: 16px;
+            color: #666;
+            line-height: 1.5;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e2e8f0;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 12px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #48bb78, #38a169);
+            width: 65%;
+            transition: width 1s ease;
+        }
+
+        .action-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .action-card {
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            border: 1px solid #e2e8f0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .action-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+        }
+
+        .action-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--accent-color, #4299e1), #3182ce);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 12px;
+            box-shadow: 0 4px 12px rgba(66, 153, 225, 0.2);
+            transition: all 0.3s ease;
+            color: white;
+        }
+
+        .action-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--primary-color, #1a365d);
+            margin-bottom: 4px;
+        }
+
+        .action-desc {
+            font-size: 12px;
+            color: #666;
+        }
+
+        .btn {
+            background: var(--accent-color, #4299e1);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 100%;
+        }
+
+        .btn-generate {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 100%;
+        }
+
+        .btn-generate:hover {
+            background: #5a67d8;
+            transform: translateY(-1px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        /* Floating Launch Demo Button */
+        .floating-launch-btn-container {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 1000;
+        }
+
+        .floating-launch-btn {
+            background: #ff1493;
+            color: white;
+            border: none;
+            padding: 16px 40px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(255, 20, 147, 0.3), 0 2px 4px rgba(255, 20, 147, 0.2);
+            white-space: nowrap;
+            min-width: 180px;
+        }
+
+        .floating-launch-btn:hover {
+            background: #e91e63;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(255, 20, 147, 0.4), 0 3px 6px rgba(255, 20, 147, 0.3);
+        }
+
+        .floating-launch-btn:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15), 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Demo Mode Styles */
+        .demo-mode {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: #f8f9fa;
+            z-index: 10000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .demo-mode.active {
+            display: flex;
+        }
+
+        .demo-phone-container {
+            width: 400px;
+            height: 800px;
+            background: #000;
+            border-radius: 32px;
+            padding: 7px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            position: relative;
+            margin: 0 auto;
+        }
+
+        .demo-phone-screen {
+            width: 100%;
+            height: 100%;
+            background: #fff;
+            border-radius: 25px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .demo-controls {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(15px);
+            border-radius: 16px;
+            padding: 16px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 10001;
+            min-width: 50px;
+            max-width: 280px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .demo-controls.collapsed {
+            max-width: 50px;
+            padding: 8px;
+            background: transparent;
+            backdrop-filter: none;
+            box-shadow: none;
+            border: none;
+        }
+
+        .demo-controls.collapsed .demo-controls-header,
+        .demo-controls.collapsed .demo-controls-buttons {
+            opacity: 0;
+            transform: translateX(20px);
+            pointer-events: none;
+        }
+
+        .demo-controls.collapsed .demo-toggle-btn {
+            opacity: 1;
+            transform: translateX(0);
+            pointer-events: all;
+        }
+
+        .demo-controls-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .demo-controls-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: #333;
+            white-space: nowrap;
+        }
+
+        .demo-controls-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .demo-control-btn {
+            background: linear-gradient(135deg, #667eea, #5a67d8);
+            color: white;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+        }
+
+        .demo-control-btn:hover {
+            background: linear-gradient(135deg, #5a67d8, #4c51bf);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+
+        .demo-toggle-btn {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: linear-gradient(135deg, #667eea, #5a67d8);
+            color: white;
+            border: none;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            opacity: 0;
+            pointer-events: none;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+
+        .demo-toggle-btn:hover {
+            background: linear-gradient(135deg, #5a67d8, #4c51bf);
+            transform: translate(-50%, -50%) scale(1.1);
+            box-shadow: 0 6px 16px rgba(102, 126, 234, 0.4);
+        }
+
+        .device-size-selector {
+            margin: 8px 0;
+            padding: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 6px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .device-size-selector label {
+            display: block;
+            font-size: 11px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 4px;
+            white-space: nowrap;
+        }
+
+        .device-size-selector select {
+            width: 100%;
+            padding: 6px 8px;
+            border: 1px solid rgba(102, 126, 234, 0.3);
+            border-radius: 4px;
+            font-size: 11px;
+            background: white;
+            color: #333;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .device-size-selector select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.2);
+        }
+
+        .demo-exit-btn {
+            background: linear-gradient(135deg, #343a40, #495057);
+            color: white;
+            border: none;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            padding: 10px 16px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            box-shadow: 0 2px 8px rgba(52, 58, 64, 0.3);
+            width: 100%;
+        }
+
+        .demo-exit-btn:hover {
+            background: linear-gradient(135deg, #495057, #6c757d);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(52, 58, 64, 0.4);
+        }
+
+        .btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+            margin-top: 10px;
+        }
+
+        .notification {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: white;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            max-width: 300px;
+            font-size: 12px;
+            z-index: 1000;
+        }
+
+        .notification-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .notification-message {
+            color: #666;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        /* Preview Controls Styles */
+        .preview-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+
+        .preview-btn:hover {
+            background: #5a67d8;
+            transform: translateY(-1px);
+        }
+
+        .preview-btn:active {
+            transform: translateY(0);
+        }
+
+        /* Push Notification Styles for Preview */
+        .push-notification {
+            position: absolute;
+            top: 44px;
+            left: 8px;
+            right: 8px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.12), 0 1px 3px rgba(0,0,0,0.08);
+            padding: 12px;
+            margin: 8px;
+            z-index: 1000;
+            transform: translateY(-120px);
+            opacity: 0;
+            transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .push-notification.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .notification-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 6px;
+        }
+
+        .notification-icon {
+            width: 28px;
+            height: 28px;
+            background: linear-gradient(135deg, var(--accent-color, #4299e1), #3182ce);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            font-size: 14px;
+            box-shadow: 0 2px 4px rgba(66, 153, 225, 0.2);
+        }
+
+        .notification-app {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--primary-color, #1a365d);
+        }
+
+        .notification-time {
+            font-size: 11px;
+            color: #a0aec0;
+            margin-left: auto;
+        }
+
+        .notification-title {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--primary-color, #1a365d);
+            margin-bottom: 2px;
+            line-height: 1.2;
+        }
+
+        .notification-message {
+            font-size: 13px;
+            color: #4a5568;
+            line-height: 1.3;
+            margin-bottom: 10px;
+        }
+
+        .notification-actions {
+            display: flex;
+            gap: 6px;
+        }
+
+        .notification-btn {
+            flex: 1;
+            padding: 6px 10px;
+            border: none;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .notification-btn.primary {
+            background: linear-gradient(135deg, var(--accent-color, #4299e1), #3182ce);
+            color: white;
+            box-shadow: 0 2px 4px rgba(66, 153, 225, 0.2);
+        }
+
+        .notification-btn.secondary {
+            background: rgba(247, 250, 252, 0.8);
+            color: #4a5568;
+            border: 1px solid rgba(226, 232, 240, 0.6);
+        }
+
+        /* Chat Overlay Styles for Preview */
+
+
+        .bottom-overlay {
+            position: absolute;
+            top: calc(100% - 55px); /* Start where chat overlay ends */
+            left: 6px; /* Stay inside black trim */
+            right: 6px; /* Stay inside black trim */
+            bottom: 6px; /* Stay inside black trim */
+            background: white;
+            z-index: 999;
+            display: none;
+            border-radius: 0px 0px 26px 26px;
+        }
+
+        .chat-overlay {
+            position: absolute;
+            top: 44px; /* Align with status bar */
+            left: 6px; /* Stay inside black trim */
+            right: 6px; /* Stay inside black trim */
+            bottom: 55px; /* Pull up from bottom by 55px */
+            background: white;
+            z-index: 1000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            border-radius: 8px 8px 0 0;
+            padding: 0;
+        }
+
+        .chat-container {
+            width: 100%;
+            height: 100%;
+            background: white;
+            border-radius: 0;
+            box-shadow: none;
+            overflow: hidden;
+            position: relative;
+            margin: 0;
+        }
+
+        /* Demo Mode Chat Overlay Styles */
+        .demo-mode .chat-overlay {
+            position: absolute;
+            top: 44px; /* Align with status bar */
+            left: 0; /* Full width in demo mode */
+            right: 0; /* Full width in demo mode */
+            bottom: 55px; /* Pull up from bottom by 55px */
+            background: white;
+            z-index: 1000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            border-radius: 0;
+            padding: 0;
+        }
+
+        .chat-overlay.active {
+            display: flex;
+        }
+
+        .chat-container {
+            width: 100%;
+            height: 100%;
+            background: white;
+            border-radius: 0;
+            box-shadow: none;
+            overflow: hidden;
+            position: relative;
+            margin: 0;
+        }
+
+
+
+        .chat-header {
+            background: linear-gradient(135deg, var(--primary-color, #1a365d) 0%, var(--secondary-color, #2d5aa0) 100%);
+            color: white;
+            padding: 14px 18px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* Demo Mode Chat Header Styles */
+        .demo-mode .chat-header {
+            background: linear-gradient(135deg, var(--primary-color, #1a365d) 0%, var(--secondary-color, #2d5aa0) 100%);
+            color: white;
+            padding: 14px 18px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+
+        .chat-title {
+            font-size: 15px;
+            font-weight: 600;
+        }
+
+        .chat-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            padding: 4px;
+            border-radius: 4px;
+            transition: background 0.2s ease;
+        }
+
+        .chat-content {
+            height: calc(100% - 56px);
+            position: relative;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="config-panel">
+            <h1 style="margin-bottom: 30px; color: #333;">Mobile App Demo Generator</h1>
+            
+            <!-- Industry Selection -->
+            <div class="section">
+                <div class="section-title">1. Choose Your Industry</div>
+                <div class="industry-templates">
+                    <div class="template-card" data-industry="banking">
+                        <div class="template-icon">🏦</div>
+                        <div class="template-name">Banking/FinTech</div>
+                        <div class="template-desc">Loan applications, document uploads, calculators</div>
+                    </div>
+                    <div class="template-card" data-industry="retail">
+                        <div class="template-icon">🛍️</div>
+                        <div class="template-name">Retail</div>
+                        <div class="template-desc">Shopping cart, order tracking, product browsing</div>
+                    </div>
+                    <div class="template-card" data-industry="gaming">
+                        <div class="template-icon">🎮</div>
+                        <div class="template-name">Gaming</div>
+                        <div class="template-desc">Level progress, achievements, in-app purchases</div>
+                    </div>
+                    <div class="template-card" data-industry="healthcare">
+                        <div class="template-icon">🏥</div>
+                        <div class="template-name">Healthcare</div>
+                        <div class="template-desc">Medical records, appointments, prescriptions</div>
+                    </div>
+                    <div class="template-card" data-industry="hotel">
+                        <div class="template-icon">🏨</div>
+                        <div class="template-name">Hotel</div>
+                        <div class="template-desc">Concierge services, room bookings, luxury amenities</div>
+                    </div>
+                    <div class="template-card" data-industry="custom">
+                        <div class="template-icon">⚙️</div>
+                        <div class="template-name">Custom</div>
+                        <div class="template-desc">Build from scratch</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Company Information -->
+            <div class="section">
+                <div class="section-title">2. Company Information</div>
+                <div class="form-group">
+                    <label for="companyName">Company Name *</label>
+                    <input type="text" id="companyName" placeholder="Enter your company name" value="Freedom FinTech">
+                </div>
+                <div class="form-group">
+                    <label for="companyTagline">Company Tagline</label>
+                    <input type="text" id="companyTagline" placeholder="Enter your company tagline" value="Your Path to Homeownership">
+                </div>
+            </div>
+
+            <!-- Brand Colors -->
+            <div class="section">
+                <div class="section-title">3. Brand Colors</div>
+                <div class="form-group">
+                    <label>Primary Color</label>
+                    <div class="color-picker">
+                        <input type="color" id="primaryColor" class="color-input" value="#1a365d">
+                        <input type="text" id="primaryColorText" value="#1a365d" placeholder="#1a365d">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Secondary Color</label>
+                    <div class="color-picker">
+                        <input type="color" id="secondaryColor" class="color-input" value="#2d5aa0">
+                        <input type="text" id="secondaryColorText" value="#2d5aa0" placeholder="#2d5aa0">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Accent Color</label>
+                    <div class="color-picker">
+                        <input type="color" id="accentColor" class="color-input" value="#4299e1">
+                        <input type="text" id="accentColorText" value="#4299e1" placeholder="#4299e1">
+                    </div>
+                </div>
+            </div>
+
+            <!-- User Information -->
+            <div class="section">
+                <div class="section-title">4. User Information</div>
+                <div class="form-group">
+                    <label for="userFirstName">User First Name *</label>
+                    <input type="text" id="userFirstName" placeholder="Enter user's first name" value="Daisy">
+                </div>
+                <div class="form-group">
+                    <label for="userLastName">User Last Name</label>
+                    <input type="text" id="userLastName" placeholder="Enter user's last name" value="Johnson">
+                </div>
+                <div class="form-group">
+                    <label for="userEmail">User Email</label>
+                    <input type="email" id="userEmail" placeholder="user@example.com" value="daisy.johnson@example.com">
+                </div>
+                <div class="form-group">
+                    <label for="applicationProgress">Progress Indicator (%)</label>
+                    <input type="number" id="applicationProgress" min="0" max="100" value="65">
+                </div>
+                <div class="form-group">
+                    <label for="applicationStage">Current Stage</label>
+                    <input type="text" id="applicationStage" placeholder="e.g., Document Review" value="Document Review">
+                </div>
+            </div>
+
+            <!-- Messaging Details -->
+            <div class="section">
+                <div class="section-title">5. Messaging Details</div>
+                <div class="form-group">
+                    <label for="integrationId">Integration ID *</label>
+                    <div style="position: relative;">
+                        <input type="text" id="integrationId" placeholder="e.g., 68124ef7dc2c6664100ff708" autocomplete="on">
+                        <div style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%);">
+                            <span style="cursor: pointer; color: #667eea; font-size: 14px;" title="Learn how to find your Integration ID" onclick="window.open('https://support.zendesk.com/hc/en-us/articles/8357757769114-Getting-a-list-of-integration-IDs-from-messaging-without-connecting-to-AI-agents-Advanced', '_blank')">ⓘ</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="businessName">Business Name (for chat)</label>
+                    <input type="text" id="businessName" placeholder="Name shown in chat" value="ZenCX">
+                </div>
+                <div class="form-group">
+                    <label for="businessIconUrl">Business Icon URL</label>
+                    <input type="url" id="businessIconUrl" placeholder="https://example.com/icon.jpg" value="https://t3.ftcdn.net/jpg/05/83/74/28/360_F_583742881_HNQwJVxhKDQ7M5LOdBQIYOGDHTOhfZva.jpg">
+                </div>
+            </div>
+
+            <!-- Push Notification Customization -->
+            <div class="section">
+                <div class="section-title">6. Push Notification Message</div>
+                <div class="form-group">
+                    <label for="pushNotificationTitle">Notification Title</label>
+                    <input type="text" id="pushNotificationTitle" placeholder="Enter notification title" value="">
+                </div>
+                <div class="form-group">
+                    <label for="pushNotificationMessage">Notification Message</label>
+                    <textarea id="pushNotificationMessage" placeholder="Enter notification message" rows="3" style="resize: vertical;"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="pushNotificationIcon">Notification Icon</label>
+                    <input type="text" id="pushNotificationIcon" placeholder="Enter emoji or icon" value="">
+                </div>
+                <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; margin-top: 15px; border-left: 4px solid #667eea;">
+                    <div style="font-size: 12px; color: #666; margin-bottom: 8px;">💡 <strong>Tip:</strong></div>
+                    <div style="font-size: 12px; color: #666; line-height: 1.4;">
+                        Leave these fields empty to use industry-specific default messages. Each template comes with appropriate messaging for its industry.
+                    </div>
+                    <button type="button" onclick="resetPushNotificationDefaults()" style="background: #667eea; color: white; border: none; padding: 8px 16px; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer; margin-top: 10px;">
+                        🔄 Reset to Industry Defaults
+                    </button>
+                </div>
+            </div>
+
+
+        </div>
+
+        <div class="preview-panel">
+            <h3 style="margin-bottom: 20px;">Live Preview</h3>
+            
+            <!-- Preview Controls -->
+            <div class="preview-controls" style="margin-bottom: 20px; padding: 15px; background: #f8f9fa; border-radius: 8px; border: 1px solid #e9ecef;">
+                <div style="font-weight: 600; margin-bottom: 10px; color: #495057;">Test Features:</div>
+                <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                    <button id="testPushBtn" class="preview-btn" onclick="testPushNotification()">
+                        📱 Test Push Notification
+                    </button>
+                    <button id="testChatBtn" class="preview-btn" onclick="testSunCoChat()">
+                        💬 Test Chat
+                    </button>
+                    <button id="resetPreviewBtn" class="preview-btn" onclick="resetPreview()">
+                        🔄 Reset Preview
+                    </button>
+                    <button id="clearChatsBtn" class="preview-btn" onclick="clearLocalStorage()">
+                        🗑️ Clear Previous Chats
+                    </button>
+                </div>
+            </div>
+            
+            <div class="preview-container">
+                <div class="phone-container">
+                    <div class="phone-screen" id="previewScreen">
+                        <div class="status-bar">
+                            <span>9:41</span>
+                            <span id="previewCompanyName">Freedom FinTech</span>
+                            <span>82%</span>
+                        </div>
+                        
+                        <!-- Push Notification in Preview -->
+                        <div class="push-notification" id="preview-push-notification">
+                            <div class="notification-header">
+                                <div class="notification-icon" id="previewNotificationIcon">🏠</div>
+                                <div class="notification-app" id="previewNotificationApp">Freedom FinTech</div>
+                                <div class="notification-time">now</div>
+                            </div>
+                            <div class="notification-title" id="previewNotificationTitle">Welcome back, Daisy! 👋</div>
+                            <div class="notification-message" id="previewNotificationMessage">Continue your document review process</div>
+                            <div class="notification-actions">
+                                <button class="notification-btn primary" onclick="handleNotificationChatClick()">Learn More</button>
+                                <button class="notification-btn secondary" onclick="dismissPreviewNotification()">Dismiss</button>
+                            </div>
+                        </div>
+                        
+                        <div class="app-header">
+                            <div class="logo" id="previewLogo">Freedom FinTech</div>
+                            <div class="tagline" id="previewTagline">Your Path to Homeownership</div>
+                        </div>
+                        <div class="main-content" id="previewContent">
+                            <div class="welcome-title" id="previewWelcomeTitle">Welcome back, Daisy!</div>
+                            <div class="welcome-subtitle" id="previewWelcomeSubtitle">Let's get you closer to your dream home</div>
+                            <div class="progress-bar">
+                                <div class="progress-fill"></div>
+                            </div>
+                            <div class="action-grid" id="previewActions">
+                                <div class="action-card">
+                                    <div class="action-icon">
+                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <rect x="4" y="2" width="16" height="20" rx="2" ry="2"/>
+                                            <line x1="8" y1="6" x2="16" y2="6"/>
+                                            <line x1="8" y1="10" x2="16" y2="10"/>
+                                            <line x1="8" y1="14" x2="16" y2="14"/>
+                                            <line x1="8" y1="18" x2="12" y2="18"/>
+                                        </svg>
+                                    </div>
+                                    <div class="action-title">Loan Calculator</div>
+                                    <div class="action-desc">Estimate payments</div>
+                                </div>
+                                <div class="action-card">
+                                    <div class="action-icon">
+                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+                                        </svg>
+                                    </div>
+                                    <div class="action-title">Upload Docs</div>
+                                    <div class="action-desc">Submit required files</div>
+                                </div>
+                                <div class="action-card">
+                                    <div class="action-icon">
+                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <polyline points="22,12 18,12 15,21 9,3 6,12 2,12"/>
+                                        </svg>
+                                    </div>
+                                    <div class="action-title">Current Rates</div>
+                                    <div class="action-desc">View live rates</div>
+                                </div>
+                                <div class="action-card">
+                                    <div class="action-icon">
+                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                                        </svg>
+                                    </div>
+                                    <div class="action-title">Get Support</div>
+                                    <div class="action-desc">Chat with advisor</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Bottom Overlay to Cover Homepage Icons -->
+                    <div class="bottom-overlay" id="preview-bottom-overlay"></div>
+                    
+                    <!-- SunCo Chat Overlay for Preview -->
+                    <div class="chat-overlay" id="preview-chat-overlay">
+                        <div class="chat-container">
+                            <div class="chat-header">
+                                <div class="chat-title" id="previewChatTitle">Contact us</div>
+                                <button class="chat-close" onclick="closePreviewChat()">×</button>
+                            </div>
+                            <div class="chat-content" id="preview-chat-content">
+                                <!-- Real SunCo widget will be loaded here -->
+                                <div id="preview-sunco-container" style="height: 100%; width: 100%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="notification hidden" id="notification">
+                <div class="notification-title">Demo Generated!</div>
+                <div class="notification-message">Your mobile app demo has been created successfully.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating Launch Demo Button -->
+    <div class="floating-launch-btn-container">
+        <button class="floating-launch-btn" onclick="launchDemo()">🚀 Launch Demo</button>
+    </div>
+
+    <!-- Demo Mode Overlay -->
+    <div class="demo-mode" id="demoMode">
+        <div class="demo-phone-container">
+            <div class="demo-phone-screen" id="demoPhoneScreen">
+                <!-- Demo phone content will be cloned here -->
+            </div>
+        </div>
+        
+        <!-- Floating Demo Controls -->
+        <div class="demo-controls" id="demoControls">
+            <button class="demo-toggle-btn" onclick="toggleDemoControls()" title="Toggle Demo Controls">⚙️</button>
+            <div class="demo-controls-header">
+                <button class="demo-exit-btn" onclick="exitDemo()">Exit Demo</button>
+            </div>
+            <div class="demo-controls-buttons">
+                <button class="demo-control-btn" onclick="demoTestPushNotification()">
+                    📱 Test Push
+                </button>
+                <button class="demo-control-btn" onclick="demoTestChat()">
+                    💬 Test Chat
+                </button>
+                <button class="demo-control-btn" onclick="demoClearChats()">
+                    🗑️ Clear Chats
+                </button>
+                <div class="device-size-selector">
+                    <label for="deviceSize">📱 Device Size:</label>
+                    <select id="deviceSize" onchange="changeDeviceSize()">
+                        <option value="iphone">iPhone</option>
+                        <option value="android">Android</option>
+                        <option value="ipad">iPad</option>
+                    </select>
+                </div>
+                <button class="demo-control-btn" onclick="toggleDemoControls()" style="background: linear-gradient(135deg, #6c757d, #5a6268);">
+                    👁️ Hide Panel
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Advanced demo generation functions are now integrated into the main file -->
+
+    <script>
+        // Industry templates data
+        const industryTemplates = {
+            banking: {
+                name: "Banking/FinTech",
+                companyName: "Freedom FinTech",
+                tagline: "Your Path to Homeownership",
+                primaryColor: "#1a365d",
+                secondaryColor: "#2d5aa0",
+                accentColor: "#4299e1",
+                userFirstName: "Daisy",
+                userLastName: "Johnson",
+                userEmail: "daisy.johnson@example.com",
+                businessName: "Freedom FinTech Support",
+                applicationProgress: 65,
+                applicationStage: "Document Review",
+                uiLayout: "banking",
+                pushNotification: {
+                    icon: "🏠",
+                    title: "Welcome back, Daisy! 👋",
+                    message: "Continue your document review process"
+                }
+            },
+            retail: {
+                name: "Retail",
+                companyName: "FashionForward",
+                tagline: "Your Style, Your Way",
+                primaryColor: "#e91e63",
+                secondaryColor: "#f06292",
+                accentColor: "#ff4081",
+                userFirstName: "Sarah",
+                userLastName: "Johnson",
+                userEmail: "sarah.johnson@email.com",
+                businessName: "FashionForward Customer Care",
+                applicationProgress: 45,
+                applicationStage: "Order Processing",
+                uiLayout: "retail",
+                pushNotification: {
+                    icon: "🛍️",
+                    title: "New arrivals, Sarah! 🛍️",
+                    message: "Check out the latest collection"
+                }
+            },
+            gaming: {
+                name: "Gaming",
+                companyName: "EpicQuest Games",
+                tagline: "Adventure Awaits!",
+                primaryColor: "#ff6b6b",
+                secondaryColor: "#ee5a24",
+                accentColor: "#ff9ff3",
+                userFirstName: "Alex",
+                userLastName: "Chen",
+                userEmail: "alex.chen@email.com",
+                businessName: "EpicQuest Player Support",
+                applicationProgress: 78,
+                applicationStage: "Level 45",
+                uiLayout: "gaming",
+                pushNotification: {
+                    icon: "🎮",
+                    title: "Ready to play, Alex! 🎮",
+                    message: "Continue your adventure at Level 45"
+                }
+            },
+            healthcare: {
+                name: "Healthcare",
+                companyName: "HealthFirst Medical",
+                tagline: "Your Health, Our Priority",
+                primaryColor: "#48dbfb",
+                secondaryColor: "#0abde3",
+                accentColor: "#54a0ff",
+                userFirstName: "Dr. Johnson",
+                userLastName: "Smith",
+                userEmail: "dr.johnson@healthfirst.com",
+                businessName: "HealthFirst Patient Care",
+                applicationProgress: 85,
+                applicationStage: "Patient Records",
+                uiLayout: "healthcare",
+                pushNotification: {
+                    icon: "🏥",
+                    title: "Health check, Dr. Johnson! 🏥",
+                    message: "Your wellness journey continues"
+                }
+            },
+            hotel: {
+                name: "Hotel",
+                companyName: "Four Seasons Luxury",
+                tagline: "Excellence in Service",
+                primaryColor: "#8b4513",
+                secondaryColor: "#d2691e",
+                accentColor: "#ffd700",
+                userFirstName: "Michael",
+                userLastName: "Anderson",
+                userEmail: "michael.anderson@fourseasons.com",
+                businessName: "Four Seasons Concierge",
+                applicationProgress: 90,
+                applicationStage: "Concierge Services",
+                uiLayout: "hotel",
+                pushNotification: {
+                    icon: "🏨",
+                    title: "Welcome, Michael! 🏨",
+                    message: "Your luxury experience awaits"
+                }
+            }
+        };
+
+        // Initialize the generator
+        document.addEventListener('DOMContentLoaded', function() {
+            setupEventListeners();
+            updatePreview();
+            
+            // Pre-load SunCo library to ensure it's available when needed
+            preloadSunCo();
+            
+
+        });
+
+        function setupEventListeners() {
+            // Industry template selection
+            document.querySelectorAll('.template-card').forEach(card => {
+                card.addEventListener('click', function() {
+                    document.querySelectorAll('.template-card').forEach(c => c.classList.remove('selected'));
+                    this.classList.add('selected');
+                    
+                    const industry = this.dataset.industry;
+                    if (industry !== 'custom' && industryTemplates[industry]) {
+                        loadTemplate(industryTemplates[industry]);
+                    } else if (industry === 'custom') {
+                        // For custom industry, update business name based on current company name
+                        updateBusinessNameFromCompany();
+                    }
+                });
+            });
+
+            // Color picker synchronization
+            ['primary', 'secondary', 'accent'].forEach(colorType => {
+                const colorInput = document.getElementById(colorType + 'Color');
+                const textInput = document.getElementById(colorType + 'ColorText');
+                
+                colorInput.addEventListener('input', function() {
+                    textInput.value = this.value;
+                    updatePreview();
+                });
+                
+                textInput.addEventListener('input', function() {
+                    colorInput.value = this.value;
+                    updatePreview();
+                });
+            });
+
+            // Real-time preview updates
+            ['companyName', 'companyTagline', 'userFirstName', 'userLastName', 'userEmail', 
+             'integrationId', 'businessName', 'applicationProgress', 'applicationStage',
+             'pushNotificationTitle', 'pushNotificationMessage', 'pushNotificationIcon'].forEach(id => {
+                document.getElementById(id).addEventListener('input', updatePreview);
+            });
+
+            // Auto-update business name when company name changes
+            document.getElementById('companyName').addEventListener('input', function() {
+                updateBusinessNameFromCompany();
+            });
+        }
+
+        function loadTemplate(template) {
+            document.getElementById('companyName').value = template.companyName;
+            document.getElementById('companyTagline').value = template.tagline;
+            document.getElementById('userFirstName').value = template.userFirstName;
+            document.getElementById('userLastName').value = template.userLastName;
+            document.getElementById('userEmail').value = template.userEmail;
+            document.getElementById('businessName').value = template.businessName;
+            document.getElementById('applicationProgress').value = template.applicationProgress;
+            document.getElementById('applicationStage').value = template.applicationStage;
+            
+            document.getElementById('primaryColor').value = template.primaryColor;
+            document.getElementById('primaryColorText').value = template.primaryColor;
+            document.getElementById('secondaryColor').value = template.secondaryColor;
+            document.getElementById('secondaryColorText').value = template.secondaryColor;
+            document.getElementById('accentColor').value = template.accentColor;
+            document.getElementById('accentColorText').value = template.accentColor;
+            
+            // Load push notification defaults if available
+            if (template.pushNotification) {
+                document.getElementById('pushNotificationIcon').value = template.pushNotification.icon;
+                document.getElementById('pushNotificationTitle').value = template.pushNotification.title;
+                document.getElementById('pushNotificationMessage').value = template.pushNotification.message;
+            } else {
+                // Clear push notification fields for custom template
+                document.getElementById('pushNotificationIcon').value = '';
+                document.getElementById('pushNotificationTitle').value = '';
+                document.getElementById('pushNotificationMessage').value = '';
+            }
+            
+            updatePreview();
+        }
+
+        function updateBusinessNameFromCompany() {
+            const companyName = document.getElementById('companyName').value;
+            const industry = getSelectedIndustry();
+            
+            if (!companyName) return;
+            
+            let businessNameSuffix = '';
+            switch(industry) {
+                case 'banking':
+                    businessNameSuffix = ' Support';
+                    break;
+                case 'retail':
+                    businessNameSuffix = ' Customer Care';
+                    break;
+                case 'gaming':
+                    businessNameSuffix = ' Player Support';
+                    break;
+                case 'healthcare':
+                    businessNameSuffix = ' Patient Care';
+                    break;
+                case 'hotel':
+                    businessNameSuffix = ' Concierge';
+                    break;
+                default:
+                    businessNameSuffix = ' Support';
+            }
+            
+            document.getElementById('businessName').value = companyName + businessNameSuffix;
+        }
+
+        function updatePreview() {
+            const companyName = document.getElementById('companyName').value || 'Your Company';
+            const tagline = document.getElementById('companyTagline').value || 'Your tagline here';
+            const userFirstName = document.getElementById('userFirstName').value || 'User';
+            const applicationProgress = document.getElementById('applicationProgress').value || 0;
+            const applicationStage = document.getElementById('applicationStage').value || 'In Progress';
+            
+            document.getElementById('previewCompanyName').textContent = userFirstName + "'s phone";
+            document.getElementById('previewLogo').textContent = companyName;
+            document.getElementById('previewTagline').textContent = tagline;
+            // Update welcome content based on industry
+            updateWelcomeContent(userFirstName, applicationStage);
+            
+            // Update progress bar
+            const progressFill = document.querySelector('#previewContent .progress-fill');
+            if (progressFill) {
+                progressFill.style.width = `${applicationProgress}%`;
+            }
+            
+            // Update CSS variables for colors
+            const primaryColor = document.getElementById('primaryColor').value;
+            const secondaryColor = document.getElementById('secondaryColor').value;
+            const accentColor = document.getElementById('accentColor').value;
+            
+            document.documentElement.style.setProperty('--primary-color', primaryColor);
+            document.documentElement.style.setProperty('--secondary-color', secondaryColor);
+            document.documentElement.style.setProperty('--accent-color', accentColor);
+            
+            // Update UI layout based on selected industry
+            updateUILayout();
+        }
+
+        function getConfig() {
+            return {
+                industry: getSelectedIndustry(),
+                company: {
+                    name: document.getElementById('companyName').value,
+                    tagline: document.getElementById('companyTagline').value
+                },
+                colors: {
+                    primary: document.getElementById('primaryColor').value,
+                    secondary: document.getElementById('secondaryColor').value,
+                    accent: document.getElementById('accentColor').value
+                },
+                user: {
+                    firstName: document.getElementById('userFirstName').value,
+                    lastName: document.getElementById('userLastName').value,
+                    email: document.getElementById('userEmail').value
+                },
+                application: {
+                    progress: document.getElementById('applicationProgress').value,
+                    stage: document.getElementById('applicationStage').value
+                },
+                sunco: {
+                    integrationId: document.getElementById('integrationId').value,
+                    businessName: document.getElementById('businessName').value
+                },
+                pushNotification: {
+                    icon: document.getElementById('pushNotificationIcon').value,
+                    title: document.getElementById('pushNotificationTitle').value,
+                    message: document.getElementById('pushNotificationMessage').value
+                }
+            };
+        }
+
+        function getSelectedIndustry() {
+            const selectedCard = document.querySelector('.template-card.selected');
+            return selectedCard ? selectedCard.dataset.industry : 'custom';
+        }
+
+        function updateUILayout() {
+            const industry = getSelectedIndustry();
+            const actionGrid = document.getElementById('previewActions');
+            
+            if (!actionGrid) return;
+            
+            // Clear existing actions
+            actionGrid.innerHTML = '';
+            
+            switch(industry) {
+                case 'banking':
+                    updateBankingLayout(actionGrid);
+                    break;
+                case 'retail':
+                    updateRetailLayout(actionGrid);
+                    break;
+                case 'gaming':
+                    updateGamingLayout(actionGrid);
+                    break;
+                case 'healthcare':
+                    updateHealthcareLayout(actionGrid);
+                    break;
+                case 'hotel':
+                    updateHotelLayout(actionGrid);
+                    break;
+                default:
+                    updateBankingLayout(actionGrid); // Default to banking layout
+            }
+        }
+
+        function updateBankingLayout(actionGrid) {
+            actionGrid.innerHTML = `
+                <div class="action-card">
+                    <div class="action-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="4" y="2" width="16" height="20" rx="2" ry="2"/>
+                            <line x1="8" y1="6" x2="16" y2="6"/>
+                            <line x1="8" y1="10" x2="16" y2="10"/>
+                            <line x1="8" y1="14" x2="16" y2="14"/>
+                            <line x1="8" y1="18" x2="12" y2="18"/>
+                        </svg>
+                    </div>
+                    <div class="action-title">Loan Calculator</div>
+                    <div class="action-desc">Estimate payments</div>
+                </div>
+                <div class="action-card">
+                    <div class="action-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+                        </svg>
+                    </div>
+                    <div class="action-title">Upload Docs</div>
+                    <div class="action-desc">Submit required files</div>
+                </div>
+                <div class="action-card">
+                    <div class="action-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="22,12 18,12 15,21 9,3 6,12 2,12"/>
+                        </svg>
+                    </div>
+                    <div class="action-title">Current Rates</div>
+                    <div class="action-desc">View live rates</div>
+                </div>
+                <div class="action-card" onclick="handleChatClick(this)">
+                    <div class="action-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                        </svg>
+                    </div>
+                    <div class="action-title">Get Support</div>
+                    <div class="action-desc">Chat with advisor</div>
+                </div>
+            `;
+        }
+
+        function updateRetailLayout(actionGrid) {
+            actionGrid.innerHTML = `
+                <div class="action-card">
+                    <div class="action-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M9 11H1a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1z"/>
+                            <path d="M23 11h-8a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1z"/>
+                            <path d="M9 19H1a1 1 0 0 1-1-1v-1a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1z"/>
+                            <path d="M23 19h-8a1 1 0 0 1-1-1v-1a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1z"/>
+                        </svg>
+                    </div>
+                    <div class="action-title">Shop Now</div>
+                    <div class="action-desc">Browse collections</div>
+                </div>
+                <div class="action-card">
+                    <div class="action-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+                            <line x1="3" y1="6" x2="21" y2="6"/>
+                            <path d="M16 10a4 4 0 0 1-8 0"/>
+                        </svg>
+                    </div>
+                    <div class="action-title">My Cart</div>
+                    <div class="action-desc">3 items</div>
+                </div>
+                <div class="action-card">
+                    <div class="action-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                        </svg>
+                    </div>
+                    <div class="action-title">Wishlist</div>
+                    <div class="action-desc">12 items</div>
+                </div>
+                <div class="action-card" onclick="handleChatClick(this)">
+                    <div class="action-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                        </svg>
+                    </div>
+                    <div class="action-title">Customer Care</div>
+                    <div class="action-desc">Get help</div>
+                </div>
+            `;
+        }
+
+        function updateGamingLayout(actionGrid) {
+            actionGrid.innerHTML = `
+                <div class="action-card">
+                    <div class="action-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <circle cx="12" cy="10" r="3"/>
+                            <path d="M7 20.662V19a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v1.662"/>
+                        </svg>
+                    </div>
+                    <div class="action-title">Play Now</div>
+                    <div class="action-desc">Continue Level 45</div>
+                </div>
+                <div class="action-card">
+                    <div class="action-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                        </svg>
+                    </div>
+                    <div class="action-title">Achievements</div>
+                    <div class="action-desc">23 unlocked</div>
+                </div>
+                <div class="action-card">
+                    <div class="action-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                        </svg>
+                    </div>
+                    <div class="action-title">Store</div>
+                    <div class="action-desc">Buy coins & gems</div>
+                </div>
+                <div class="action-card" onclick="handleChatClick(this)">
+                    <div class="action-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                        </svg>
+                    </div>
+                    <div class="action-title">Support</div>
+                    <div class="action-desc">Get help</div>
+                </div>
+            `;
+        }
+
+        function updateHealthcareLayout(actionGrid) {
+            actionGrid.innerHTML = `
+                <div class="action-card">
+                    <div class="action-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M8 2v4M16 2v4M3 10h18M5 4h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"/>
+                        </svg>
+                    </div>
+                    <div class="action-title">Appointments</div>
+                    <div class="action-desc">Schedule visit</div>
+                </div>
+                <div class="action-card">
+                    <div class="action-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+                        </svg>
+                    </div>
+                    <div class="action-title">Medical Records</div>
+                    <div class="action-desc">View history</div>
+                </div>
+                <div class="action-card">
+                    <div class="action-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                            <circle cx="8.5" cy="8.5" r="1.5"/>
+                            <polyline points="21,15 16,10 5,21"/>
+                        </svg>
+                    </div>
+                    <div class="action-title">Prescriptions</div>
+                    <div class="action-desc">Refill meds</div>
+                </div>
+                <div class="action-card" onclick="handleChatClick(this)">
+                    <div class="action-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                        </svg>
+                    </div>
+                    <div class="action-title">Health Chat</div>
+                    <div class="action-desc">Ask questions</div>
+                </div>
+            `;
+        }
+
+        function updateHotelLayout(actionGrid) {
+            actionGrid.innerHTML = `
+                <div class="action-card">
+                    <div class="action-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                            <polyline points="9,22 9,12 15,12 15,22"/>
+                        </svg>
+                    </div>
+                    <div class="action-title">Book Room</div>
+                    <div class="action-desc">Reserve suite</div>
+                </div>
+                <div class="action-card">
+                    <div class="action-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                        </svg>
+                    </div>
+                    <div class="action-title">Concierge</div>
+                    <div class="action-desc">Luxury services</div>
+                </div>
+                <div class="action-card">
+                    <div class="action-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+                            <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+                        </svg>
+                    </div>
+                    <div class="action-title">Room Service</div>
+                    <div class="action-desc">Order dining</div>
+                </div>
+                <div class="action-card" onclick="handleChatClick(this)">
+                    <div class="action-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                        </svg>
+                    </div>
+                    <div class="action-title">Butler Chat</div>
+                    <div class="action-desc">24/7 assistance</div>
+                </div>
+            `;
+        }
+
+        function updateWelcomeContent(userFirstName, applicationStage) {
+            const industry = getSelectedIndustry();
+            const welcomeTitle = document.getElementById('previewWelcomeTitle');
+            const welcomeSubtitle = document.getElementById('previewWelcomeSubtitle');
+            
+            switch(industry) {
+                case 'banking':
+                    welcomeTitle.textContent = `Welcome back, ${userFirstName}!`;
+                    welcomeSubtitle.textContent = `Let's get you closer to your dream home`;
+                    break;
+                case 'retail':
+                    welcomeTitle.textContent = `Hello, ${userFirstName}!`;
+                    welcomeSubtitle.textContent = `Discover the latest trends and styles`;
+                    break;
+                case 'gaming':
+                    welcomeTitle.textContent = `Ready to play, ${userFirstName}?`;
+                    welcomeSubtitle.textContent = `Your adventure continues at ${applicationStage}`;
+                    break;
+                case 'healthcare':
+                    welcomeTitle.textContent = `Good health, ${userFirstName}!`;
+                    welcomeSubtitle.textContent = `Your wellness journey continues`;
+                    break;
+                case 'hotel':
+                    welcomeTitle.textContent = `Welcome, ${userFirstName}!`;
+                    welcomeSubtitle.textContent = `Your luxury experience awaits`;
+                    break;
+                default:
+                    welcomeTitle.textContent = `Welcome back, ${userFirstName}!`;
+                    welcomeSubtitle.textContent = `Continue your ${applicationStage.toLowerCase()} process`;
+            }
+        }
+
+
+
+        // Preview Control Functions
+        function testPushNotification() {
+            const notification = document.getElementById('preview-push-notification');
+            const companyName = document.getElementById('companyName').value || 'Your Company';
+            const userFirstName = document.getElementById('userFirstName').value || 'User';
+            const applicationStage = document.getElementById('applicationStage').value || 'In Progress';
+            const industry = getSelectedIndustry();
+            
+            // Update notification content with current config
+            document.getElementById('previewNotificationApp').textContent = companyName;
+            
+            // Update notification content based on industry
+            updateNotificationContent(userFirstName, applicationStage, industry);
+            
+            // Show the notification
+            notification.classList.add('show');
+            
+            // Auto-dismiss after 5 seconds
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 5000);
+        }
+
+        function updateNotificationContent(userFirstName, applicationStage, industry) {
+            const notificationTitle = document.getElementById('previewNotificationTitle');
+            const notificationMessage = document.getElementById('previewNotificationMessage');
+            const notificationIcon = document.getElementById('previewNotificationIcon');
+            
+            // Get custom notification content
+            const customIcon = document.getElementById('pushNotificationIcon').value;
+            const customTitle = document.getElementById('pushNotificationTitle').value;
+            const customMessage = document.getElementById('pushNotificationMessage').value;
+            
+            // Use custom content if provided, otherwise use industry defaults
+            if (customIcon && customTitle && customMessage) {
+                notificationIcon.textContent = customIcon;
+                notificationTitle.textContent = customTitle;
+                notificationMessage.textContent = customMessage;
+            } else {
+                // Use industry-specific defaults
+                const template = industryTemplates[industry];
+                if (template && template.pushNotification) {
+                    // Replace user name in the default title if it contains a placeholder
+                    let defaultTitle = template.pushNotification.title;
+                    if (defaultTitle.includes('Daisy')) {
+                        defaultTitle = defaultTitle.replace('Daisy', userFirstName);
+                    } else if (defaultTitle.includes('Sarah')) {
+                        defaultTitle = defaultTitle.replace('Sarah', userFirstName);
+                    } else if (defaultTitle.includes('Alex')) {
+                        defaultTitle = defaultTitle.replace('Alex', userFirstName);
+                    } else if (defaultTitle.includes('Dr. Johnson')) {
+                        defaultTitle = defaultTitle.replace('Dr. Johnson', userFirstName);
+                    } else if (defaultTitle.includes('Michael')) {
+                        defaultTitle = defaultTitle.replace('Michael', userFirstName);
+                    }
+                    
+                    notificationIcon.textContent = template.pushNotification.icon;
+                    notificationTitle.textContent = defaultTitle;
+                    notificationMessage.textContent = template.pushNotification.message;
+                } else {
+                    // Fallback for custom industry
+                    notificationIcon.textContent = '🏠';
+                    notificationTitle.textContent = `Welcome back, ${userFirstName}! 👋`;
+                    notificationMessage.textContent = `Continue your ${applicationStage.toLowerCase()} process`;
+                }
+            }
+        }
+
+        function dismissPreviewNotification() {
+            const notification = document.getElementById('preview-push-notification');
+            notification.classList.remove('show');
+        }
+
+        function testSunCoChat() {
+            const chatOverlay = document.getElementById('preview-chat-overlay');
+            const bottomOverlay = document.getElementById('preview-bottom-overlay');
+            const companyName = document.getElementById('businessName').value || 'Your Company';
+            const integrationId = document.getElementById('integrationId').value || '68124ef7dc2c6664100ff708';
+            const industry = getSelectedIndustry();
+            
+            // Update chat title based on industry
+            updateChatTitle(companyName, industry);
+            
+            // Show the chat overlay and bottom overlay
+            chatOverlay.classList.add('active');
+            bottomOverlay.style.display = 'block';
+            
+            // Initialize real SunCo widget
+            initializePreviewSunCo(integrationId, companyName);
+        }
+
+        function updateChatTitle(companyName, industry) {
+            const chatTitle = document.getElementById('previewChatTitle');
+            
+            switch(industry) {
+                case 'banking':
+                    chatTitle.textContent = `${companyName} Support`;
+                    break;
+                case 'retail':
+                    chatTitle.textContent = `${companyName} Customer Care`;
+                    break;
+                case 'gaming':
+                    chatTitle.textContent = `${companyName} Support`;
+                    break;
+                case 'healthcare':
+                    chatTitle.textContent = `${companyName} Health Chat`;
+                    break;
+                case 'hotel':
+                    chatTitle.textContent = `${companyName} Concierge`;
+                    break;
+                default:
+                    chatTitle.textContent = `${companyName} Support`;
+            }
+        }
+
+        function initializePreviewSunCo(integrationId, businessName) {
+            // Use the same SunCo Web Messenger loader as the original demo
+            if (typeof Smooch === 'undefined') {
+                // Load SunCo Web Messenger using the same loader script
+                const script = document.createElement('script');
+                script.textContent = `
+                    !function(o,p,s,e,c){
+                        var i,a,h,u=[],d=[];function t(){var t="You must provide a supported major version.";try{if(!c)throw new Error(t);var e,n="https://cdn.smooch.io/",r="smooch";if((e="string"==typeof this.response?JSON.parse(this.response):this.response).url){var o=p.getElementsByTagName("script")[0],s=p.createElement("script");s.async=!0;var i=c.match(/([0-9]+).?([0-9]+)?.?([0-9]+)?/),a=i&&i[1];if(i&&i[3])s.src=n+r+"."+c+".min.js";else{if(!(4<=a&&e["v"+a]))throw new Error(t);s.src=e["v"+a]}o.parentNode.insertBefore(s,o)}}catch(e){e.message===t&&console.error(e)}}o[s]={init:function(){i=arguments;var t={then:function(e){return d.push({type:"t",next:e}),t},catch:function(e){return d.push({type:"c",next:e}),t}};return t},on:function(){u.push(arguments)},render:function(){a=arguments},destroy:function(){h=arguments}},o.__onWebMessengerHostReady__=function(e){if(delete o.__onWebMessengerHostReady__,o[s]=e,i)for(var t=e.init.apply(e,i),n=0;n<d.length;n++){var r=d[n];t="t"===r.type?t.then(r.next):t.catch(r.next)}a&&e.render.apply(e,a),h&&e.destroy.apply(e,h);for(n=0;n<u.length;n++)e.on.apply(e,u[n])};var n=new XMLHttpRequest;n.addEventListener("load",t),n.open("GET","https://"+e+".webloader.smooch.io/",!0),n.responseType="json",n.send()
+                    }(window,document,"Smooch","${integrationId}","5");
+                `;
+                document.head.appendChild(script);
+                
+                // Wait for SunCo to be ready
+                const checkSmooch = setInterval(() => {
+                    if (typeof Smooch !== 'undefined') {
+                        clearInterval(checkSmooch);
+                        initPreviewSunCoWidget(integrationId, businessName);
+                    }
+                }, 100);
+            } else {
+                const container = document.getElementById('preview-sunco-container');
+                initPreviewSunCoWidget(integrationId, businessName, container);
+            }
+        }
+
+        function initPreviewSunCoWidget(integrationId, businessName, container) {
+            
+            // Clean up any existing widgets first
+            cleanupAllSunCoWidgets();
+            
+            // Clear any existing content
+            container.innerHTML = '';
+            
+            // Initialize SunCo using non-authenticated mode (same as original demo fallback)
+            console.log('Initializing preview SunCo in non-authenticated mode...');
+            
+            // Initialize SunCo without JWT (same as original demo's fallback)
+            Smooch.init({
+                integrationId: integrationId,
+                embedded: true,
+                canUserCreateMoreConversations: false,
+                canUserSeeConversationList: false,
+                businessName: businessName,
+                businessIconUrl: document.getElementById('businessIconUrl').value || "https://t3.ftcdn.net/jpg/05/83/74/28/360_F_583742881_HNQwJVxhKDQ7M5LOdBQIYOGDHTOhfZva.jpg",
+                customColors: {
+                    brandColor: document.getElementById('primaryColor').value.replace('#', ''),
+                    conversationColor: document.getElementById('secondaryColor').value.replace('#', ''),
+                    actionColor: document.getElementById('accentColor').value.replace('#', '')
+                },
+                menuItems: {
+                    imageUpload: true,
+                    fileUpload: true,
+                    shareLocation: false
+                },
+                soundNotificationEnabled: false
+                // No JWT or externalId - using non-authenticated mode like original demo
+            });
+
+            // Render the widget in the preview container
+            Smooch.render(container);
+            
+            // Handle ready event (same as original demo)
+            Smooch.on('ready', function() {
+                console.log('Preview SunCo widget ready');
+                
+                // Create a conversation if none exists
+                setTimeout(() => {
+                    try {
+                        // Try to create a conversation directly
+                        Smooch.createConversation().then(function(conversation) {
+                            console.log('Preview conversation created:', conversation);
+                        }).catch(function(error) {
+                            console.error('Error creating preview conversation:', error);
+                        });
+                    } catch (error) {
+                        console.error('Error in preview SunCo ready handler:', error);
+                    }
+                }, 1000);
+            });
+            
+            // Handle errors
+            Smooch.on('error', function(error) {
+                console.error('Preview SunCo error:', error);
+            });
+        }
+
+        function closePreviewChat() {
+            const chatOverlay = document.getElementById('preview-chat-overlay');
+            const bottomOverlay = document.getElementById('preview-bottom-overlay');
+            chatOverlay.classList.remove('active');
+            bottomOverlay.style.display = 'none';
+            
+            // Clean up SunCo widget if it exists
+            if (typeof Smooch !== 'undefined') {
+                try {
+                    Smooch.destroy();
+                } catch (error) {
+                    console.log('Preview SunCo widget cleanup:', error);
+                }
+            }
+        }
+
+        function closeDemoChat() {
+            const demoPhoneScreen = document.getElementById('demoPhoneScreen');
+            const chatOverlay = demoPhoneScreen.querySelector('.chat-overlay');
+            
+            if (chatOverlay) {
+                chatOverlay.classList.remove('active');
+            }
+            
+            // Clean up SunCo widget if it exists
+            if (typeof Smooch !== 'undefined') {
+                try {
+                    Smooch.destroy();
+                } catch (error) {
+                    console.log('Demo SunCo widget cleanup:', error);
+                }
+            }
+        }
+
+        function cleanupAllSunCoWidgets() {
+            if (typeof Smooch !== 'undefined') {
+                try {
+                    Smooch.destroy();
+                } catch (error) {
+                    console.log('All SunCo widgets cleanup:', error);
+                }
+            }
+        }
+
+        function resetPreview() {
+            // Hide push notification
+            dismissPreviewNotification();
+            
+            // Hide chat overlay
+            closePreviewChat();
+            
+            // Reset any other preview states
+            console.log('Preview reset');
+        }
+
+        function clearLocalStorage() {
+            localStorage.clear();
+            sessionStorage.clear();
+            location.reload();
+        }
+
+        function launchDemo() {
+            const demoMode = document.getElementById('demoMode');
+            const demoPhoneScreen = document.getElementById('demoPhoneScreen');
+            const previewScreen = document.getElementById('previewScreen');
+            const previewChatOverlay = document.getElementById('preview-chat-overlay');
+            
+            // Clean up any existing SunCo widgets before switching modes
+            cleanupAllSunCoWidgets();
+            
+            // Clone the preview phone content to demo mode
+            demoPhoneScreen.innerHTML = previewScreen.innerHTML;
+            
+            // Also clone the chat overlay if it exists
+            if (previewChatOverlay) {
+                const demoChatOverlay = document.createElement('div');
+                demoChatOverlay.className = 'chat-overlay';
+                demoChatOverlay.innerHTML = previewChatOverlay.innerHTML;
+                
+                // Update the SunCo container ID to be unique for demo mode
+                const demoSunCoContainer = demoChatOverlay.querySelector('#preview-sunco-container');
+                if (demoSunCoContainer) {
+                    demoSunCoContainer.id = 'demo-sunco-container';
+                }
+                
+                // Update the chat close button to use demo-specific function
+                const chatCloseBtn = demoChatOverlay.querySelector('.chat-close');
+                if (chatCloseBtn) {
+                    chatCloseBtn.onclick = closeDemoChat;
+                }
+                
+                demoPhoneScreen.appendChild(demoChatOverlay);
+            }
+            
+            // Update demo phone content with current configuration
+            updateDemoContent();
+            
+            // Show demo mode
+            demoMode.classList.add('active');
+            
+            // Hide body scroll
+            document.body.style.overflow = 'hidden';
+        }
+
+        function exitDemo() {
+            const demoMode = document.getElementById('demoMode');
+            
+            // Clean up any existing SunCo widgets before exiting demo
+            cleanupAllSunCoWidgets();
+            
+            // Hide demo mode
+            demoMode.classList.remove('active');
+            
+            // Restore body scroll
+            document.body.style.overflow = 'auto';
+        }
+
+        function updateDemoContent() {
+            // Update demo phone with current configuration
+            const companyName = document.getElementById('companyName').value || 'Your Company';
+            const tagline = document.getElementById('companyTagline').value || 'Your tagline here';
+            const userFirstName = document.getElementById('userFirstName').value || 'User';
+            const applicationProgress = document.getElementById('applicationProgress').value || 0;
+            const applicationStage = document.getElementById('applicationStage').value || 'In Progress';
+            
+            // Update demo phone elements
+            const demoStatusBar = demoPhoneScreen.querySelector('.status-bar span:nth-child(2)');
+            const demoLogo = demoPhoneScreen.querySelector('.logo');
+            const demoTagline = demoPhoneScreen.querySelector('.tagline');
+            const demoWelcomeTitle = demoPhoneScreen.querySelector('.welcome-title');
+            const demoWelcomeSubtitle = demoPhoneScreen.querySelector('.welcome-subtitle');
+            const demoProgressFill = demoPhoneScreen.querySelector('.progress-fill');
+            
+            if (demoStatusBar) demoStatusBar.textContent = userFirstName + "'s phone";
+            if (demoLogo) demoLogo.textContent = companyName;
+            if (demoTagline) demoTagline.textContent = tagline;
+            if (demoWelcomeTitle) demoWelcomeTitle.textContent = `Welcome back, ${userFirstName}!`;
+            if (demoWelcomeSubtitle) demoWelcomeSubtitle.textContent = `Continue your ${applicationStage.toLowerCase()} process`;
+            if (demoProgressFill) demoProgressFill.style.width = `${applicationProgress}%`;
+            
+            // Update UI layout based on selected industry
+            updateDemoUILayout();
+        }
+
+        function updateDemoUILayout() {
+            const industry = getSelectedIndustry();
+            const demoActionGrid = document.getElementById('demoPhoneScreen').querySelector('.action-grid');
+            
+            if (!demoActionGrid) return;
+            
+            // Clear existing actions
+            demoActionGrid.innerHTML = '';
+            
+            switch(industry) {
+                case 'banking':
+                    updateBankingLayout(demoActionGrid);
+                    break;
+                case 'retail':
+                    updateRetailLayout(demoActionGrid);
+                    break;
+                case 'gaming':
+                    updateGamingLayout(demoActionGrid);
+                    break;
+                case 'healthcare':
+                    updateHealthcareLayout(demoActionGrid);
+                    break;
+                case 'hotel':
+                    updateHotelLayout(demoActionGrid);
+                    break;
+                default:
+                    updateBankingLayout(demoActionGrid);
+            }
+        }
+
+        function demoTestPushNotification() {
+            const notification = document.getElementById('demoPhoneScreen').querySelector('.push-notification');
+            const companyName = document.getElementById('companyName').value || 'Your Company';
+            const userFirstName = document.getElementById('userFirstName').value || 'User';
+            const applicationStage = document.getElementById('applicationStage').value || 'In Progress';
+            const industry = getSelectedIndustry();
+            
+            // Update notification content with current config
+            const notificationApp = notification.querySelector('.notification-app');
+            const notificationTitle = notification.querySelector('.notification-title');
+            const notificationMessage = notification.querySelector('.notification-message');
+            const notificationIcon = notification.querySelector('.notification-icon');
+            
+            if (notificationApp) notificationApp.textContent = companyName;
+            
+            // Update notification content based on industry
+            updateDemoNotificationContent(userFirstName, applicationStage, industry, notificationTitle, notificationMessage, notificationIcon);
+            
+            // Show the notification
+            notification.classList.add('show');
+            
+            // Auto-dismiss after 5 seconds
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 5000);
+        }
+
+        function updateDemoNotificationContent(userFirstName, applicationStage, industry, titleEl, messageEl, iconEl) {
+            // Get custom notification content
+            const customIcon = document.getElementById('pushNotificationIcon').value;
+            const customTitle = document.getElementById('pushNotificationTitle').value;
+            const customMessage = document.getElementById('pushNotificationMessage').value;
+            
+            // Use custom content if provided, otherwise use industry defaults
+            if (customIcon && customTitle && customMessage) {
+                iconEl.textContent = customIcon;
+                titleEl.textContent = customTitle;
+                messageEl.textContent = customMessage;
+            } else {
+                // Use industry-specific defaults
+                const template = industryTemplates[industry];
+                if (template && template.pushNotification) {
+                    // Replace user name in the default title if it contains a placeholder
+                    let defaultTitle = template.pushNotification.title;
+                    if (defaultTitle.includes('Daisy')) {
+                        defaultTitle = defaultTitle.replace('Daisy', userFirstName);
+                    } else if (defaultTitle.includes('Sarah')) {
+                        defaultTitle = defaultTitle.replace('Sarah', userFirstName);
+                    } else if (defaultTitle.includes('Alex')) {
+                        defaultTitle = defaultTitle.replace('Alex', userFirstName);
+                    } else if (defaultTitle.includes('Dr. Johnson')) {
+                        defaultTitle = defaultTitle.replace('Dr. Johnson', userFirstName);
+                    } else if (defaultTitle.includes('Michael')) {
+                        defaultTitle = defaultTitle.replace('Michael', userFirstName);
+                    }
+                    
+                    iconEl.textContent = template.pushNotification.icon;
+                    titleEl.textContent = defaultTitle;
+                    messageEl.textContent = template.pushNotification.message;
+                } else {
+                    // Fallback for custom industry
+                    iconEl.textContent = '🏠';
+                    titleEl.textContent = `Welcome back, ${userFirstName}! 👋`;
+                    messageEl.textContent = `Continue your ${applicationStage.toLowerCase()} process`;
+                }
+            }
+        }
+
+        function demoTestChat() {
+            const chatOverlay = document.getElementById('demoPhoneScreen').querySelector('.chat-overlay');
+            const companyName = document.getElementById('businessName').value || 'Your Company';
+            const integrationId = document.getElementById('integrationId').value || '68124ef7dc2c6664100ff708';
+            const industry = getSelectedIndustry();
+            
+            if (!chatOverlay) {
+                console.error('Chat overlay not found in demo mode');
+                return;
+            }
+            
+            // Update chat title based on industry
+            updateDemoChatTitle(companyName, industry);
+            
+            // Show the chat overlay
+            chatOverlay.classList.add('active');
+            
+            // Initialize real SunCo widget
+            initializeDemoSunCo(integrationId, companyName);
+        }
+
+        function updateDemoChatTitle(companyName, industry) {
+            const chatTitle = document.getElementById('demoPhoneScreen').querySelector('.chat-title');
+            
+            if (!chatTitle) {
+                console.error('Chat title element not found in demo mode');
+                return;
+            }
+            
+            switch(industry) {
+                case 'banking':
+                    chatTitle.textContent = `${companyName} Support`;
+                    break;
+                case 'retail':
+                    chatTitle.textContent = `${companyName} Customer Care`;
+                    break;
+                case 'gaming':
+                    chatTitle.textContent = `${companyName} Support`;
+                    break;
+                case 'healthcare':
+                    chatTitle.textContent = `${companyName} Health Chat`;
+                    break;
+                case 'hotel':
+                    chatTitle.textContent = `${companyName} Concierge`;
+                    break;
+                default:
+                    chatTitle.textContent = `${companyName} Support`;
+            }
+        }
+
+        function demoClearChats() {
+            localStorage.clear();
+            sessionStorage.clear();
+            // Don't reload the page in demo mode, just show a brief message
+            const demoControls = document.getElementById('demoControls');
+            const originalTitle = demoControls.querySelector('.demo-controls-title');
+            originalTitle.textContent = 'Chats Cleared!';
+            setTimeout(() => {
+                originalTitle.textContent = 'Demo Controls';
+            }, 2000);
+        }
+
+        function initializeDemoSunCo(integrationId, businessName) {
+            const container = document.getElementById('demoPhoneScreen').querySelector('#demo-sunco-container');
+            
+            if (!container) {
+                console.error('SunCo container not found in demo mode');
+                return;
+            }
+            
+            // Clear any existing content
+            container.innerHTML = '';
+            
+            // Initialize SunCo using non-authenticated mode
+            console.log('Initializing demo SunCo in non-authenticated mode...');
+            
+            // Check if Smooch is already loaded, if not, load it
+            if (typeof Smooch === 'undefined') {
+                console.log('Smooch not loaded, loading now...');
+                const script = document.createElement('script');
+                script.textContent = `
+                    !function(o,p,s,e,c){
+                        var i,a,h,u=[],d=[];function t(){var t="You must provide a supported major version.";try{if(!c)throw new Error(t);var e,n="https://cdn.smooch.io/",r="smooch";if((e="string"==typeof this.response?JSON.parse(this.response):this.response).url){var o=p.getElementsByTagName("script")[0],s=p.createElement("script");s.async=!0;var i=c.match(/([0-9]+).?([0-9]+)?.?([0-9]+)?/),a=i&&i[1];if(i&&i[3])s.src=n+r+"."+c+".min.js";else{if(!(4<=a&&e["v"+a]))throw new Error(t);s.src=e["v"+a]}o.parentNode.insertBefore(s,o)}}catch(e){e.message===t&&console.error(e)}}o[s]={init:function(){i=arguments;var t={then:function(e){return d.push({type:"t",next:e}),t},catch:function(e){return d.push({type:"c",next:e}),t}};return t},on:function(){u.push(arguments)},render:function(){a=arguments},destroy:function(){h=arguments}},o.__onWebMessengerHostReady__=function(e){if(delete o.__onWebMessengerHostReady__,o[s]=e,i)for(var t=e.init.apply(e,i),n=0;n<d.length;n++){var r=d[n];t="t"===r.type?t.then(r.next):t.catch(r.next)}a&&e.render.apply(e,a),h&&e.destroy.apply(e,h);for(n=0;n<u.length;n++)e.on.apply(e,u[n])};var n=new XMLHttpRequest;n.addEventListener("load",t),n.open("GET","https://"+e+".webloader.smooch.io/",!0),n.responseType="json",n.send()
+                    }(window,document,"Smooch","${integrationId}","5");
+                `;
+                document.head.appendChild(script);
+                
+                // Wait for Smooch to be ready
+                const checkSmooch = setInterval(() => {
+                    if (typeof Smooch !== 'undefined') {
+                        clearInterval(checkSmooch);
+                        initDemoSunCoWidget(integrationId, businessName, container);
+                    }
+                }, 100);
+            } else {
+                initDemoSunCoWidget(integrationId, businessName, container);
+            }
+        }
+
+        function initDemoSunCoWidget(integrationId, businessName, container) {
+            // Clean up any existing widgets first
+            cleanupAllSunCoWidgets();
+            
+            // Clear any existing content
+            container.innerHTML = '';
+            
+            // Initialize SunCo without JWT
+            Smooch.init({
+                integrationId: integrationId,
+                embedded: true,
+                canUserCreateMoreConversations: false,
+                canUserSeeConversationList: false,
+                businessName: businessName,
+                businessIconUrl: document.getElementById('businessIconUrl').value || "https://t3.ftcdn.net/jpg/05/83/74/28/360_F_583742881_HNQwJVxhKDQ7M5LOdBQIYOGDHTOhfZva.jpg",
+                customColors: {
+                    brandColor: document.getElementById('primaryColor').value.replace('#', ''),
+                    conversationColor: document.getElementById('secondaryColor').value.replace('#', ''),
+                    actionColor: document.getElementById('accentColor').value.replace('#', '')
+                },
+                menuItems: {
+                    imageUpload: true,
+                    fileUpload: true,
+                    shareLocation: false
+                },
+                soundNotificationEnabled: false
+            });
+
+            // Render the widget in the demo container
+            Smooch.render(container);
+            
+            // Handle ready event
+            Smooch.on('ready', function() {
+                console.log('Demo SunCo widget ready');
+                
+                // Create a conversation if none exists
+                setTimeout(() => {
+                    try {
+                        // Try to create a conversation directly
+                        Smooch.createConversation().then(function(conversation) {
+                            console.log('Demo conversation created:', conversation);
+                        }).catch(function(error) {
+                            console.error('Error creating demo conversation:', error);
+                        });
+                    } catch (error) {
+                        console.error('Error in demo SunCo ready handler:', error);
+                    }
+                }, 1000);
+            });
+            
+            // Handle errors
+            Smooch.on('error', function(error) {
+                console.error('Demo SunCo error:', error);
+            });
+        }
+
+        function handleChatClick(element) {
+            // Check if we're in demo mode
+            const demoMode = document.getElementById('demoMode');
+            if (demoMode.classList.contains('active')) {
+                // We're in demo mode, use demo chat function
+                demoTestChat();
+            } else {
+                // We're in preview mode, use regular chat function
+                testSunCoChat();
+            }
+        }
+
+        function handleNotificationChatClick() {
+            // Check if we're in demo mode
+            const demoMode = document.getElementById('demoMode');
+            if (demoMode.classList.contains('active')) {
+                // We're in demo mode, use demo chat function
+                demoTestChat();
+            } else {
+                // We're in preview mode, use regular chat function
+                testSunCoChat();
+            }
+        }
+
+        function cleanupSunCoWidgets() {
+            try {
+                if (typeof Smooch !== 'undefined') {
+                    // Only destroy if we're switching between modes, not within the same mode
+                    console.log('SunCo widgets cleaned up');
+                }
+            } catch (error) {
+                console.log('Error cleaning up SunCo widgets:', error);
+            }
+        }
+
+        function preloadSunCo() {
+            // Pre-load SunCo library with default integration ID
+            const defaultIntegrationId = '68124ef7dc2c6664100ff708';
+            
+            if (typeof Smooch === 'undefined') {
+                console.log('Pre-loading SunCo library...');
+                const script = document.createElement('script');
+                script.textContent = `
+                    !function(o,p,s,e,c){
+                        var i,a,h,u=[],d=[];function t(){var t="You must provide a supported major version.";try{if(!c)throw new Error(t);var e,n="https://cdn.smooch.io/",r="smooch";if((e="string"==typeof this.response?JSON.parse(this.response):this.response).url){var o=p.getElementsByTagName("script")[0],s=p.createElement("script");s.async=!0;var i=c.match(/([0-9]+).?([0-9]+)?.?([0-9]+)?/),a=i&&i[1];if(i&&i[3])s.src=n+r+"."+c+".min.js";else{if(!(4<=a&&e["v"+a]))throw new Error(t);s.src=e["v"+a]}o.parentNode.insertBefore(s,o)}}catch(e){e.message===t&&console.error(e)}}o[s]={init:function(){i=arguments;var t={then:function(e){return d.push({type:"t",next:e}),t},catch:function(e){return d.push({type:"c",next:e}),t}};return t},on:function(){u.push(arguments)},render:function(){a=arguments},destroy:function(){h=arguments}},o.__onWebMessengerHostReady__=function(e){if(delete o.__onWebMessengerHostReady__,o[s]=e,i)for(var t=e.init.apply(e,i),n=0;n<d.length;n++){var r=d[n];t="t"===r.type?t.then(r.next):t.catch(r.next)}a&&e.render.apply(e,a),h&&e.destroy.apply(e,h);for(n=0;n<u.length;n++)e.on.apply(e,u[n])};var n=new XMLHttpRequest;n.addEventListener("load",t),n.open("GET","https://"+e+".webloader.smooch.io/",!0),n.responseType="json",n.send()
+                    }(window,document,"Smooch","${defaultIntegrationId}","5");
+                `;
+                document.head.appendChild(script);
+                
+                // Log when SunCo is ready
+                const checkSmooch = setInterval(() => {
+                    if (typeof Smooch !== 'undefined') {
+                        clearInterval(checkSmooch);
+                        console.log('SunCo library pre-loaded successfully');
+                    }
+                }, 100);
+            } else {
+                console.log('SunCo library already loaded');
+            }
+        }
+
+        // Demo JWT Token Creation (for preview)
+        function createPreviewJWT(userEmail, userName) {
+            // This is a simplified demo JWT - in production, this would be generated server-side
+            const header = {
+                alg: 'HS256',
+                typ: 'JWT',
+                kid: 'demo-key-id'
+            };
+            
+            const payload = {
+                sub: userEmail,
+                givenName: userName,
+                email: userEmail,
+                iat: Math.floor(Date.now() / 1000),
+                exp: Math.floor(Date.now() / 1000) + (24 * 60 * 60), // 24 hours
+                appId: document.getElementById('integrationId').value || '687fd954870b63e2f78a69bf'
+            };
+            
+            // Create a mock JWT for demo purposes
+            const encodedHeader = btoa(JSON.stringify(header));
+            const encodedPayload = btoa(JSON.stringify(payload));
+            
+            return `${encodedHeader}.${encodedPayload}.demo_signature`;
+        }
+
+
+
+        function resetPushNotificationDefaults() {
+            const industry = getSelectedIndustry();
+            const template = industryTemplates[industry];
+            
+            if (template && template.pushNotification) {
+                document.getElementById('pushNotificationIcon').value = template.pushNotification.icon;
+                document.getElementById('pushNotificationTitle').value = template.pushNotification.title;
+                document.getElementById('pushNotificationMessage').value = template.pushNotification.message;
+                updatePreview();
+            } else {
+                // Clear fields for custom industry
+                document.getElementById('pushNotificationIcon').value = '';
+                document.getElementById('pushNotificationTitle').value = '';
+                document.getElementById('pushNotificationMessage').value = '';
+                updatePreview();
+            }
+        }
+
+        function changeDeviceSize() {
+            const deviceSize = document.getElementById('deviceSize').value;
+            const phoneContainer = document.querySelector('.demo-phone-container');
+            const phoneScreen = document.querySelector('.demo-phone-screen');
+            
+            // Device size configurations
+            const deviceConfigs = {
+                iphone: {
+                    width: '375px',
+                    height: '812px',
+                    borderRadius: '40px',
+                    screenBorderRadius: '32px',
+                    padding: '8px'
+                },
+                android: {
+                    width: '360px',
+                    height: '720px',
+                    borderRadius: '20px',
+                    screenBorderRadius: '12px',
+                    padding: '6px'
+                },
+                ipad: {
+                    width: '576px',
+                    height: '768px',
+                    borderRadius: '20px',
+                    screenBorderRadius: '12px',
+                    padding: '8px'
+                }
+            };
+            
+            const config = deviceConfigs[deviceSize];
+            
+            if (config) {
+                phoneContainer.style.width = config.width;
+                phoneContainer.style.height = config.height;
+                phoneContainer.style.borderRadius = config.borderRadius;
+                phoneContainer.style.padding = config.padding;
+                phoneScreen.style.borderRadius = config.screenBorderRadius;
+                
+                // Show a brief feedback message
+                const demoControls = document.getElementById('demoControls');
+                const originalTitle = demoControls.querySelector('.demo-controls-title');
+                const deviceName = deviceSize.charAt(0).toUpperCase() + deviceSize.slice(1);
+                originalTitle.textContent = `Switched to ${deviceName}`;
+                setTimeout(() => {
+                    originalTitle.textContent = 'Demo Controls';
+                }, 2000);
+            }
+        }
+
+        // Load cached Integration ID on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            const cachedIntegrationId = localStorage.getItem('cachedIntegrationId');
+            if (cachedIntegrationId) {
+                document.getElementById('integrationId').value = cachedIntegrationId;
+            }
+        });
+
+        // Save Integration ID to cache when user types
+        document.getElementById('integrationId').addEventListener('input', function() {
+            localStorage.setItem('cachedIntegrationId', this.value);
+        });
+
+        function toggleDemoControls() {
+            const demoControls = document.getElementById('demoControls');
+            const toggleBtn = demoControls.querySelector('.demo-toggle-btn');
+            const hideBtn = demoControls.querySelector('.demo-control-btn[onclick="toggleDemoControls()"]');
+            
+            if (demoControls.classList.contains('collapsed')) {
+                // Expand the panel
+                demoControls.classList.remove('collapsed');
+                toggleBtn.style.opacity = '0';
+                toggleBtn.style.pointerEvents = 'none';
+                if (hideBtn) {
+                    hideBtn.innerHTML = '👁️ Hide Panel';
+                    hideBtn.style.background = 'linear-gradient(135deg, #6c757d, #5a6268)';
+                }
+            } else {
+                // Collapse the panel
+                demoControls.classList.add('collapsed');
+                toggleBtn.style.opacity = '1';
+                toggleBtn.style.pointerEvents = 'all';
+                if (hideBtn) {
+                    hideBtn.innerHTML = '👁️ Show Panel';
+                    hideBtn.style.background = 'linear-gradient(135deg, #28a745, #20c997)';
+                }
+            }
+        }
+    </script>
+</body>
+</html> 
