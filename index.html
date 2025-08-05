@@ -426,6 +426,67 @@
             background-color: #fff5f5;
         }
 
+        /* Modal Styles */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 10003;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 12px;
+            max-width: 800px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 30px;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .modal-header h2 {
+            margin: 0;
+            color: #333;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #666;
+            padding: 0;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: background-color 0.2s;
+        }
+
+        .modal-close:hover {
+            background-color: #f8f9fa;
+        }
+
+        .modal-body {
+            padding: 30px;
+        }
+
         /* Demo Mode Styles */
         .demo-mode {
             position: fixed;
@@ -983,7 +1044,13 @@
 <body>
     <div class="container">
         <div class="config-panel">
-            <h1 style="margin-bottom: 30px; color: #333;">Mobile App Demo Generator</h1>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
+                <h1 style="color: #333; margin: 0;">Mobile App Demo Generator</h1>
+                <div style="display: flex; gap: 10px; align-items: center;">
+                    <button onclick="shareConfiguration()" style="background: #667eea; color: white; border: none; padding: 8px 16px; border-radius: 6px; font-size: 14px; cursor: pointer; font-weight: 600;">📤 Share Config</button>
+                    <button onclick="showAboutModal()" style="background: none; border: none; color: #667eea; font-size: 14px; cursor: pointer; text-decoration: underline; padding: 8px 12px; border-radius: 6px; transition: background-color 0.2s;">ℹ️ About this Tool</button>
+                </div>
+            </div>
             
             <!-- Industry Selection -->
             <div class="section">
@@ -1076,7 +1143,7 @@
                         </ul>
                         <div style="margin-top: 10px; padding: 8px; background: #e3f2fd; border-radius: 4px; border-left: 3px solid #2196f3;">
                             <strong>Quick Test:</strong> Try this sample URL to see how it works:<br>
-                            <code style="font-size: 11px; color: #1976d2; cursor: pointer;" onclick="testSampleImage()">https://via.placeholder.com/375x812/667eea/ffffff?text=Your+App+Screenshot</code>
+                            <code style="font-size: 11px; color: #1976d2; cursor: pointer;" onclick="testSampleImage()">https://example.com/sample-app-screenshot.png</code>
                         </div>
                     </div>
                     <button type="button" onclick="clearAppScreenshot()" style="background: #667eea; color: white; border: none; padding: 8px 16px; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer; margin-top: 10px;">
@@ -1153,16 +1220,16 @@
             <div class="section" id="messagingSection">
                 <div class="section-title" id="messagingSectionTitle">5. Messaging Details</div>
                 <div class="form-group">
-                    <label for="integrationId">Integration ID *</label>
+                    <label for="integrationId">
+                        Integration ID * 
+                        <a href="https://support.zendesk.com/hc/en-us/articles/8357757769114-Getting-a-list-of-integration-IDs-from-messaging-without-connecting-to-AI-agents-Advanced" target="_blank" style="color: #667eea; font-size: 12px; text-decoration: underline; margin-left: 8px;">(What's this?)</a>
+                    </label>
                     <div style="position: relative;">
                         <div class="url-input-container">
                             <input type="text" id="integrationId" placeholder="e.g., 68124ef7dc2c6664100ff708" autocomplete="on">
                             <div id="integrationIdHistoryDropdown" class="url-history-dropdown" style="display: none;">
                                 <!-- Recent Integration IDs will be populated here -->
                             </div>
-                        </div>
-                        <div style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%);">
-                            <span style="cursor: pointer; color: #667eea; font-size: 14px;" title="Learn how to find your Integration ID" onclick="window.open('https://support.zendesk.com/hc/en-us/articles/8357757769114-Getting-a-list-of-integration-IDs-from-messaging-without-connecting-to-AI-agents-Advanced', '_blank')">ⓘ</span>
                         </div>
                     </div>
                 </div>
@@ -1328,6 +1395,95 @@
             <div class="notification hidden" id="notification">
                 <div class="notification-title">Demo Generated!</div>
                 <div class="notification-message">Your mobile app demo has been created successfully.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- About Modal -->
+    <div id="aboutModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>About This Tool</h2>
+                <button onclick="hideAboutModal()" class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div style="margin-bottom: 20px;">
+                    <h3 style="color: #333; margin-bottom: 10px;">What This Tool Does</h3>
+                    <p style="line-height: 1.6; color: #555;">
+                        This Mobile App Demo Generator simulates how Zendesk messaging would appear within a mobile app interface. 
+                        It uses the <strong>embedded web widget</strong> to demonstrate the messaging experience in a mobile context.
+                    </p>
+                </div>
+
+                <div style="margin-bottom: 20px;">
+                    <h3 style="color: #333; margin-bottom: 10px;">Embedded Web Widget vs Mobile SDK</h3>
+                    <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; border-left: 4px solid #667eea;">
+                        <h4 style="margin-bottom: 10px; color: #495057;">This Demo (Embedded Web Widget):</h4>
+                        <ul style="margin: 0; padding-left: 20px; color: #555;">
+                            <li>Web-based widget embedded in mobile app</li>
+                            <li>Uses web technologies (HTML/CSS/JavaScript)</li>
+                            <li>Easier to implement and customize</li>
+                            <li>Requires internet connection</li>
+                            <li>Limited to web widget capabilities</li>
+                        </ul>
+                    </div>
+                    
+                    <div style="background: #fff3cd; padding: 15px; border-radius: 8px; border-left: 4px solid #ffc107; margin-top: 15px;">
+                        <h4 style="margin-bottom: 10px; color: #856404;">Native Mobile SDK (Recommended for Production):</h4>
+                        <ul style="margin: 0; padding-left: 20px; color: #856404;">
+                            <li>Native iOS/Android SDK integration</li>
+                            <li>Better performance and native feel</li>
+                            <li>Push notifications support</li>
+                            <li>Offline capabilities</li>
+                            <li>Access to device features</li>
+                            <li>Better security and authentication</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div style="margin-bottom: 20px;">
+                    <h3 style="color: #333; margin-bottom: 10px;">Key Differences</h3>
+                    <table style="width: 100%; border-collapse: collapse; font-size: 14px;">
+                        <thead>
+                            <tr style="background: #f8f9fa;">
+                                <th style="padding: 10px; text-align: left; border: 1px solid #dee2e6;">Feature</th>
+                                <th style="padding: 10px; text-align: left; border: 1px solid #dee2e6;">Web Widget</th>
+                                <th style="padding: 10px; text-align: left; border: 1px solid #dee2e6;">Mobile SDK</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="padding: 10px; border: 1px solid #dee2e6;"><strong>Push Notifications</strong></td>
+                                <td style="padding: 10px; border: 1px solid #dee2e6;">❌ Limited</td>
+                                <td style="padding: 10px; border: 1px solid #dee2e6;">✅ Full Support</td>
+                            </tr>
+                            <tr style="background: #f8f9fa;">
+                                <td style="padding: 10px; border: 1px solid #dee2e6;"><strong>Offline Mode</strong></td>
+                                <td style="padding: 10px; border: 1px solid #dee2e6;">❌ No</td>
+                                <td style="padding: 10px; border: 1px solid #dee2e6;">✅ Yes</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 10px; border: 1px solid #dee2e6;"><strong>Native Performance</strong></td>
+                                <td style="padding: 10px; border: 1px solid #dee2e6;">⚠️ Web-based</td>
+                                <td style="padding: 10px; border: 1px solid #dee2e6;">✅ Native</td>
+                            </tr>
+                            <tr style="background: #f8f9fa;">
+                                <td style="padding: 10px; border: 1px solid #dee2e6;"><strong>Device Integration</strong></td>
+                                <td style="padding: 10px; border: 1px solid #dee2e6;">❌ Limited</td>
+                                <td style="padding: 10px; border: 1px solid #dee2e6;">✅ Full Access</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div style="background: #e3f2fd; padding: 15px; border-radius: 8px; border-left: 4px solid #2196f3;">
+                    <h4 style="margin-bottom: 10px; color: #1976d2;">Learn More</h4>
+                    <p style="margin: 0; color: #1976d2; font-size: 14px;">
+                        For production mobile apps, we recommend using the native SDKs. Learn more about the 
+                        <a href="https://github.com/zendesk/messaging_sdk_ios" target="_blank" style="color: #1976d2; text-decoration: underline;">iOS SDK</a> and 
+                        <a href="https://support.zendesk.com/hc/en-us/articles/4408834810394-Working-with-messaging-for-your-mobile-channel" target="_blank" style="color: #1976d2; text-decoration: underline;">mobile messaging setup</a>.
+                    </p>
+                </div>
             </div>
         </div>
     </div>
@@ -1747,7 +1903,7 @@
         }
 
         function testSampleImage() {
-            const sampleUrl = 'https://via.placeholder.com/375x812/667eea/ffffff?text=Your+App+Screenshot';
+            const sampleUrl = 'https://github.com/Asa240/mobile-app-demo-generator/blob/main/Mobile_Demo_Generator_v3.0_Clean/mobile_ticket_screen_ios.png?raw=true';
             document.getElementById('appScreenshotUrl').value = sampleUrl;
             handleAppScreenshotUrl(sampleUrl);
         }
@@ -3428,6 +3584,197 @@
         function clearIntegrationIdHistory() {
             localStorage.removeItem('integrationIdHistory');
             hideIntegrationIdHistory();
+        }
+
+        // Modal Functions
+        function showAboutModal() {
+            document.getElementById('aboutModal').style.display = 'flex';
+        }
+
+        function hideAboutModal() {
+            document.getElementById('aboutModal').style.display = 'none';
+        }
+
+        // Close modal when clicking outside
+        document.addEventListener('DOMContentLoaded', function() {
+            const modal = document.getElementById('aboutModal');
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    hideAboutModal();
+                }
+            });
+            
+            // Load configuration from URL parameters on page load
+            loadConfigurationFromURL();
+        });
+
+        // Configuration Sharing Functions
+        function shareConfiguration() {
+            const config = getCurrentConfiguration();
+            const encodedConfig = btoa(JSON.stringify(config));
+            const shareUrl = window.location.origin + window.location.pathname + '?config=' + encodedConfig;
+            
+            // Copy to clipboard
+            navigator.clipboard.writeText(shareUrl).then(function() {
+                showNotification('Configuration URL copied to clipboard!', 'success');
+            }).catch(function() {
+                // Fallback for older browsers
+                const textArea = document.createElement('textarea');
+                textArea.value = shareUrl;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                showNotification('Configuration URL copied to clipboard!', 'success');
+            });
+        }
+
+        function getCurrentConfiguration() {
+            const selectedIndustry = getSelectedIndustry();
+            const config = {
+                industry: selectedIndustry,
+                integrationId: document.getElementById('integrationId').value,
+                businessName: document.getElementById('businessName').value,
+                businessIconUrl: document.getElementById('businessIconUrl').value
+            };
+            
+            // Add industry-specific fields
+            if (selectedIndustry !== 'screenshot') {
+                config.companyName = document.getElementById('companyName').value;
+                config.companyTagline = document.getElementById('companyTagline').value;
+                config.primaryColor = document.getElementById('primaryColor').value;
+                config.secondaryColor = document.getElementById('secondaryColor').value;
+                config.accentColor = document.getElementById('accentColor').value;
+                config.userFirstName = document.getElementById('userFirstName').value;
+                config.userLastName = document.getElementById('userLastName').value;
+                config.userEmail = document.getElementById('userEmail').value;
+                config.applicationProgress = document.getElementById('applicationProgress').value;
+                config.applicationStage = document.getElementById('applicationStage').value;
+                config.pushNotificationIcon = document.getElementById('pushNotificationIcon').value;
+                config.pushNotificationTitle = document.getElementById('pushNotificationTitle').value;
+                config.pushNotificationMessage = document.getElementById('pushNotificationMessage').value;
+            } else {
+                // Screenshot-specific fields
+                config.appScreenshotUrl = document.getElementById('appScreenshotUrl').value;
+                config.screenshotUserName = document.getElementById('screenshotUserName').value;
+            }
+            
+            return config;
+        }
+
+        function loadConfigurationFromURL() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const encodedConfig = urlParams.get('config');
+            
+            if (encodedConfig) {
+                try {
+                    const config = JSON.parse(atob(encodedConfig));
+                    applyConfiguration(config);
+                    showNotification('Configuration loaded from shared URL!', 'success');
+                } catch (error) {
+                    console.error('Error loading configuration from URL:', error);
+                    showNotification('Error loading shared configuration', 'error');
+                }
+            }
+        }
+
+        function applyConfiguration(config) {
+            // Set industry first
+            if (config.industry) {
+                const industryCard = document.querySelector(`[data-industry="${config.industry}"]`);
+                if (industryCard) {
+                    // Clear previous selection
+                    document.querySelectorAll('.template-card').forEach(card => card.classList.remove('selected'));
+                    // Select new industry
+                    industryCard.classList.add('selected');
+                    
+                    // Show/hide sections based on industry
+                    if (config.industry === 'screenshot') {
+                        document.getElementById('screenshotSection').style.display = 'block';
+                        hideStylingSections();
+                    } else {
+                        document.getElementById('screenshotSection').style.display = 'none';
+                        showStylingSections();
+                    }
+                }
+            }
+            
+            // Apply basic fields
+            if (config.integrationId) document.getElementById('integrationId').value = config.integrationId;
+            if (config.businessName) document.getElementById('businessName').value = config.businessName;
+            if (config.businessIconUrl) document.getElementById('businessIconUrl').value = config.businessIconUrl;
+            
+            // Apply industry-specific fields
+            if (config.industry !== 'screenshot') {
+                if (config.companyName) document.getElementById('companyName').value = config.companyName;
+                if (config.companyTagline) document.getElementById('companyTagline').value = config.companyTagline;
+                if (config.primaryColor) {
+                    document.getElementById('primaryColor').value = config.primaryColor;
+                    document.getElementById('primaryColorText').value = config.primaryColor;
+                }
+                if (config.secondaryColor) {
+                    document.getElementById('secondaryColor').value = config.secondaryColor;
+                    document.getElementById('secondaryColorText').value = config.secondaryColor;
+                }
+                if (config.accentColor) {
+                    document.getElementById('accentColor').value = config.accentColor;
+                    document.getElementById('accentColorText').value = config.accentColor;
+                }
+                if (config.userFirstName) document.getElementById('userFirstName').value = config.userFirstName;
+                if (config.userLastName) document.getElementById('userLastName').value = config.userLastName;
+                if (config.userEmail) document.getElementById('userEmail').value = config.userEmail;
+                if (config.applicationProgress) document.getElementById('applicationProgress').value = config.applicationProgress;
+                if (config.applicationStage) document.getElementById('applicationStage').value = config.applicationStage;
+                if (config.pushNotificationIcon) document.getElementById('pushNotificationIcon').value = config.pushNotificationIcon;
+                if (config.pushNotificationTitle) document.getElementById('pushNotificationTitle').value = config.pushNotificationTitle;
+                if (config.pushNotificationMessage) document.getElementById('pushNotificationMessage').value = config.pushNotificationMessage;
+            } else {
+                // Apply screenshot-specific fields
+                if (config.appScreenshotUrl) {
+                    document.getElementById('appScreenshotUrl').value = config.appScreenshotUrl;
+                    handleAppScreenshotUrl(config.appScreenshotUrl);
+                }
+                if (config.screenshotUserName) document.getElementById('screenshotUserName').value = config.screenshotUserName;
+            }
+            
+            // Update preview
+            updatePreview();
+        }
+
+        function showNotification(message, type) {
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                padding: 15px 20px;
+                border-radius: 8px;
+                color: white;
+                font-weight: 600;
+                z-index: 10004;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+                transition: opacity 0.3s ease;
+            `;
+            
+            if (type === 'success') {
+                notification.style.background = '#28a745';
+            } else {
+                notification.style.background = '#dc3545';
+            }
+            
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            // Remove after 3 seconds
+            setTimeout(() => {
+                notification.style.opacity = '0';
+                setTimeout(() => {
+                    if (notification.parentNode) {
+                        notification.parentNode.removeChild(notification);
+                    }
+                }, 300);
+            }, 3000);
         }
     </script>
 </body>
