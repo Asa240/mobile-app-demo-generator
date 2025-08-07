@@ -1912,8 +1912,9 @@
             const selectedIndustry = getSelectedIndustry();
             
             if (selectedIndustry === 'screenshot') {
-                // In screenshot mode, only update the screenshot preview
+                // In screenshot mode, update the screenshot preview and push notifications
                 updateAppScreenshotInPreview();
+                updatePushNotificationPreview();
                 return;
             }
             
@@ -1964,12 +1965,12 @@
         }
 
         function hideStylingSections() {
-            // Hide all styling-related sections when screenshot mode is selected
+            // Hide styling-related sections when screenshot mode is selected
+            // Keep push notification section visible for screenshot mode
             const sectionsToHide = [
                 'companyInfoSection',
                 'brandColorsSection', 
-                'userInfoSection',
-                'pushNotificationSection'
+                'userInfoSection'
             ];
             
             sectionsToHide.forEach(sectionId => {
@@ -2008,10 +2009,17 @@
             let sectionNumber = 2; // Start from 2 since section 1 is always the industry selection
             
             if (selectedIndustry === 'screenshot') {
-                // In screenshot mode, only messaging section is visible after screenshot section
+                // In screenshot mode, push notification section is visible after screenshot section
                 const messagingSectionTitle = document.getElementById('messagingSectionTitle');
+                const pushNotificationSection = document.getElementById('pushNotificationSection');
                 if (messagingSectionTitle) {
-                    messagingSectionTitle.textContent = '2. Messaging Details';
+                    messagingSectionTitle.textContent = '4. Messaging Details';
+                }
+                if (pushNotificationSection) {
+                    const pushNotificationTitle = pushNotificationSection.querySelector('.section-title');
+                    if (pushNotificationTitle) {
+                        pushNotificationTitle.textContent = '3. Push Notification Message';
+                    }
                 }
             } else {
                 // In other modes, all sections are visible
@@ -2019,20 +2027,25 @@
                 if (messagingSectionTitle) {
                     messagingSectionTitle.textContent = '5. Messaging Details';
                 }
+                const pushNotificationSection = document.getElementById('pushNotificationSection');
+                if (pushNotificationSection) {
+                    const pushNotificationTitle = pushNotificationSection.querySelector('.section-title');
+                    if (pushNotificationTitle) {
+                        pushNotificationTitle.textContent = '6. Push Notification Message';
+                    }
+                }
             }
         }
 
         function clearTemplateData() {
             // Clear form fields when switching to screenshot mode
+            // Keep push notification fields available for configuration
             document.getElementById('companyName').value = '';
             document.getElementById('companyTagline').value = '';
             document.getElementById('userFirstName').value = '';
             document.getElementById('userLastName').value = '';
             document.getElementById('applicationProgress').value = '0';
             document.getElementById('applicationStage').value = '';
-            document.getElementById('pushNotificationIcon').value = '';
-            document.getElementById('pushNotificationTitle').value = '';
-            document.getElementById('pushNotificationMessage').value = '';
             
             // Reset colors to defaults
             document.getElementById('primaryColor').value = '#1a365d';
@@ -2627,6 +2640,41 @@
         function dismissPreviewNotification() {
             const notification = document.getElementById('preview-push-notification');
             notification.classList.remove('show');
+        }
+
+        function updatePushNotificationPreview() {
+            // Update push notification preview elements in screenshot mode
+            const companyName = document.getElementById('companyName').value || 'Your App';
+            const userFirstName = document.getElementById('userFirstName').value || 'User';
+            const applicationStage = document.getElementById('applicationStage').value || 'process';
+            
+            // Update notification app name
+            const notificationApp = document.getElementById('previewNotificationApp');
+            if (notificationApp) {
+                notificationApp.textContent = companyName;
+            }
+            
+            // Update notification content
+            const notificationTitle = document.getElementById('previewNotificationTitle');
+            const notificationMessage = document.getElementById('previewNotificationMessage');
+            const notificationIcon = document.getElementById('previewNotificationIcon');
+            
+            // Get custom notification content
+            const customIcon = document.getElementById('pushNotificationIcon').value;
+            const customTitle = document.getElementById('pushNotificationTitle').value;
+            const customMessage = document.getElementById('pushNotificationMessage').value;
+            
+            // Use custom content if provided, otherwise use defaults
+            if (customIcon && customTitle && customMessage) {
+                if (notificationIcon) notificationIcon.textContent = customIcon;
+                if (notificationTitle) notificationTitle.textContent = customTitle;
+                if (notificationMessage) notificationMessage.textContent = customMessage;
+            } else {
+                // Use default content for screenshot mode
+                if (notificationIcon) notificationIcon.textContent = '🏠';
+                if (notificationTitle) notificationTitle.textContent = `Welcome back, ${userFirstName}! 👋`;
+                if (notificationMessage) notificationMessage.textContent = `Continue your ${applicationStage.toLowerCase()} process`;
+            }
         }
 
         function testSunCoChat() {
