@@ -2127,18 +2127,26 @@
         function addOverlaysToScreenshot() {
             const phoneScreen = document.getElementById('previewScreen');
             
-            // Add push notification overlay
+            // Get current push notification configuration
+            const companyName = document.getElementById('companyName').value || 'Your App';
+            const userFirstName = document.getElementById('userFirstName').value || 'User';
+            const applicationStage = document.getElementById('applicationStage').value || 'process';
+            const customIcon = document.getElementById('pushNotificationIcon').value;
+            const customTitle = document.getElementById('pushNotificationTitle').value;
+            const customMessage = document.getElementById('pushNotificationMessage').value;
+            
+            // Add push notification overlay with current configuration
             const pushNotification = document.createElement('div');
             pushNotification.className = 'push-notification';
             pushNotification.id = 'preview-push-notification';
             pushNotification.innerHTML = `
                 <div class="notification-header">
-                    <div class="notification-icon" id="previewNotificationIcon">🏠</div>
-                    <div class="notification-app" id="previewNotificationApp">Your App</div>
+                    <div class="notification-icon" id="previewNotificationIcon">${customIcon || '🏠'}</div>
+                    <div class="notification-app" id="previewNotificationApp">${companyName}</div>
                     <div class="notification-time">now</div>
                 </div>
-                <div class="notification-title" id="previewNotificationTitle">Welcome back! 👋</div>
-                <div class="notification-message" id="previewNotificationMessage">Your app is ready</div>
+                <div class="notification-title" id="previewNotificationTitle">${customTitle || `Welcome back, ${userFirstName}! 👋`}</div>
+                <div class="notification-message" id="previewNotificationMessage">${customMessage || `Continue your ${applicationStage.toLowerCase()} process`}</div>
                 <div class="notification-actions">
                     <button class="notification-btn primary" onclick="handleNotificationChatClick()">Learn More</button>
                     <button class="notification-btn secondary" onclick="dismissPreviewNotification()">Dismiss</button>
@@ -2173,17 +2181,25 @@
         function addDemoOverlaysToScreenshot() {
             const demoPhoneScreen = document.getElementById('demoPhoneScreen');
             
-            // Add push notification overlay
+            // Get current push notification configuration
+            const companyName = document.getElementById('companyName').value || 'Your App';
+            const userFirstName = document.getElementById('userFirstName').value || 'User';
+            const applicationStage = document.getElementById('applicationStage').value || 'process';
+            const customIcon = document.getElementById('pushNotificationIcon').value;
+            const customTitle = document.getElementById('pushNotificationTitle').value;
+            const customMessage = document.getElementById('pushNotificationMessage').value;
+            
+            // Add push notification overlay with current configuration
             const pushNotification = document.createElement('div');
             pushNotification.className = 'push-notification';
             pushNotification.innerHTML = `
                 <div class="notification-header">
-                    <div class="notification-icon">🏠</div>
-                    <div class="notification-app">Your App</div>
+                    <div class="notification-icon">${customIcon || '🏠'}</div>
+                    <div class="notification-app">${companyName}</div>
                     <div class="notification-time">now</div>
                 </div>
-                <div class="notification-title">Welcome back! 👋</div>
-                <div class="notification-message">Your app is ready</div>
+                <div class="notification-title">${customTitle || `Welcome back, ${userFirstName}! 👋`}</div>
+                <div class="notification-message">${customMessage || `Continue your ${applicationStage.toLowerCase()} process`}</div>
                 <div class="notification-actions">
                     <button class="notification-btn primary" onclick="handleNotificationChatClick()">Learn More</button>
                     <button class="notification-btn secondary" onclick="dismissPreviewNotification()">Dismiss</button>
@@ -2966,6 +2982,9 @@
                             </div>
                         </div>
                     `;
+                    
+                    // Add overlays to demo placeholder for push notifications and chat
+                    addDemoOverlaysToScreenshot();
                 }
                 return;
             }
@@ -3659,7 +3678,7 @@
         // Configuration Sharing Functions
         function shareConfiguration() {
             const config = getCurrentConfiguration();
-            const encodedConfig = btoa(JSON.stringify(config));
+            const encodedConfig = btoa(encodeURIComponent(JSON.stringify(config)));
             const shareUrl = window.location.origin + window.location.pathname + '?config=' + encodedConfig;
             
             // Copy to clipboard
@@ -3705,6 +3724,10 @@
                 // Screenshot-specific fields
                 config.appScreenshotUrl = document.getElementById('appScreenshotUrl').value;
                 config.screenshotUserName = document.getElementById('screenshotUserName').value;
+                // Include push notification configuration for screenshot mode
+                config.pushNotificationIcon = document.getElementById('pushNotificationIcon').value;
+                config.pushNotificationTitle = document.getElementById('pushNotificationTitle').value;
+                config.pushNotificationMessage = document.getElementById('pushNotificationMessage').value;
             }
             
             return config;
@@ -3716,7 +3739,7 @@
             
             if (encodedConfig) {
                 try {
-                    const config = JSON.parse(atob(encodedConfig));
+                    const config = JSON.parse(decodeURIComponent(atob(encodedConfig)));
                     applyConfiguration(config);
                     showNotification('Configuration loaded from shared URL!', 'success');
                 } catch (error) {
@@ -3783,6 +3806,10 @@
                     handleAppScreenshotUrl(config.appScreenshotUrl);
                 }
                 if (config.screenshotUserName) document.getElementById('screenshotUserName').value = config.screenshotUserName;
+                // Apply push notification configuration for screenshot mode
+                if (config.pushNotificationIcon) document.getElementById('pushNotificationIcon').value = config.pushNotificationIcon;
+                if (config.pushNotificationTitle) document.getElementById('pushNotificationTitle').value = config.pushNotificationTitle;
+                if (config.pushNotificationMessage) document.getElementById('pushNotificationMessage').value = config.pushNotificationMessage;
             }
             
             // Update preview
