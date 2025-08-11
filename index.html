@@ -929,6 +929,20 @@
             border-radius: 0;
         }
 
+        /* Full width chat overlay for non-screenshot themes (preview mode) */
+        .chat-overlay:not(.screenshot-mode) {
+            left: 0;
+            right: 0;
+            border-radius: 0;
+        }
+
+        /* Full width bottom overlay for screenshot mode */
+        .bottom-overlay.screenshot-mode {
+            left: 0;
+            right: 0;
+            bottom: 0;
+        }
+
         .chat-container {
             width: 100%;
             height: 100%;
@@ -948,7 +962,7 @@
             right: 0; /* Full width in demo mode */
             bottom: 55px; /* Pull up from bottom by 55px */
             background: white;
-            z-index: 1000;
+            z-index: 1001;
             display: none;
             justify-content: center;
             align-items: center;
@@ -2567,7 +2581,7 @@
             
             // Add bottom overlay
             const bottomOverlay = document.createElement('div');
-            bottomOverlay.className = 'bottom-overlay';
+            bottomOverlay.className = 'bottom-overlay screenshot-mode';
             bottomOverlay.id = 'preview-bottom-overlay';
             phoneScreen.appendChild(bottomOverlay);
         }
@@ -2619,8 +2633,36 @@
             
             // Add bottom overlay
             const bottomOverlay = document.createElement('div');
-            bottomOverlay.className = 'bottom-overlay';
+            bottomOverlay.className = 'bottom-overlay screenshot-mode';
             demoPhoneScreen.appendChild(bottomOverlay);
+        }
+
+        function ensureDemoChatOverlay() {
+            const demoPhoneScreen = document.getElementById('demoPhoneScreen');
+            
+            // Check if chat overlay already exists
+            let existingChatOverlay = demoPhoneScreen.querySelector('.chat-overlay');
+            
+            if (!existingChatOverlay) {
+                // Create chat overlay for template modes
+                const chatOverlay = document.createElement('div');
+                chatOverlay.className = 'chat-overlay';
+                chatOverlay.innerHTML = `
+                    <div class="chat-container">
+                        <div class="chat-header">
+                            <div class="chat-title"></div>
+                            <button class="chat-close" onclick="closeDemoChat()">×</button>
+                        </div>
+                        <div class="chat-content">
+                            <div id="demo-sunco-container" style="height: 100%; width: 100%;"></div>
+                        </div>
+                    </div>
+                `;
+                demoPhoneScreen.appendChild(chatOverlay);
+                console.log('Created chat overlay for template mode in demo');
+            } else {
+                console.log('Chat overlay already exists in demo mode');
+            }
         }
 
         function showScreenshotPlaceholder() {
@@ -3094,6 +3136,7 @@
             const chatOverlay = document.getElementById('preview-chat-overlay');
             const bottomOverlay = document.getElementById('preview-bottom-overlay');
             const companyName = document.getElementById('companyName').value || 'Your Company';
+            const businessName = document.getElementById('businessName').value || 'Your Company';
             const integrationId = document.getElementById('integrationId').value || '68124ef7dc2c6664100ff708';
             const industry = getSelectedIndustry();
             
@@ -3104,8 +3147,8 @@
             chatOverlay.classList.add('active');
             bottomOverlay.style.display = 'block';
             
-            // Initialize real SunCo widget
-            initializePreviewSunCo(integrationId, companyName);
+            // Initialize real SunCo widget (businessName for widget config, companyName for display)
+            initializePreviewSunCo(integrationId, businessName);
         }
 
         function updateChatTitle(companyName, industry) {
@@ -3283,34 +3326,21 @@
             const demoMode = document.getElementById('demoMode');
             const demoPhoneScreen = document.getElementById('demoPhoneScreen');
             const previewScreen = document.getElementById('previewScreen');
-            const previewChatOverlay = document.getElementById('preview-chat-overlay');
             
             // Clean up any existing SunCo widgets before switching modes
             cleanupAllSunCoWidgets();
             
-            // Clone the preview phone content to demo mode
-            demoPhoneScreen.innerHTML = previewScreen.innerHTML;
+            // Clone the preview phone content to demo mode (but NOT the chat overlay)
+            const previewContent = previewScreen.cloneNode(true);
             
-            // Also clone the chat overlay if it exists
-            if (previewChatOverlay) {
-                const demoChatOverlay = document.createElement('div');
-                demoChatOverlay.className = 'chat-overlay';
-                demoChatOverlay.innerHTML = previewChatOverlay.innerHTML;
-                
-                // Update the SunCo container ID to be unique for demo mode
-                const demoSunCoContainer = demoChatOverlay.querySelector('#preview-sunco-container');
-                if (demoSunCoContainer) {
-                    demoSunCoContainer.id = 'demo-sunco-container';
-                }
-                
-                // Update the chat close button to use demo-specific function
-                const chatCloseBtn = demoChatOverlay.querySelector('.chat-close');
-                if (chatCloseBtn) {
-                    chatCloseBtn.onclick = closeDemoChat;
-                }
-                
-                demoPhoneScreen.appendChild(demoChatOverlay);
+            // Remove any existing chat overlay from the cloned content
+            const existingChatOverlay = previewContent.querySelector('.chat-overlay');
+            if (existingChatOverlay) {
+                existingChatOverlay.remove();
             }
+            
+            // Set the demo phone screen content
+            demoPhoneScreen.innerHTML = previewContent.innerHTML;
             
             // Update demo phone content with current configuration
             updateDemoContent();
@@ -3433,6 +3463,9 @@
             } else {
                 // Update UI layout based on selected industry
                 updateDemoUILayout();
+                
+                // Ensure chat overlay is available for template modes
+                ensureDemoChatOverlay();
             }
         }
 
@@ -3537,8 +3570,14 @@
         function demoTestChat() {
             const chatOverlay = document.getElementById('demoPhoneScreen').querySelector('.chat-overlay');
             const companyName = document.getElementById('companyName').value || 'Your Company';
+            const businessName = document.getElementById('businessName').value || 'Your Company';
             const integrationId = document.getElementById('integrationId').value || '68124ef7dc2c6664100ff708';
             const industry = getSelectedIndustry();
+            
+            console.log('Demo test chat called');
+            console.log('Chat overlay found:', chatOverlay);
+            console.log('Chat overlay classes:', chatOverlay ? chatOverlay.className : 'none');
+            console.log('Chat overlay display style:', chatOverlay ? chatOverlay.style.display : 'none');
             
             if (!chatOverlay) {
                 console.error('Chat overlay not found in demo mode');
@@ -3550,9 +3589,13 @@
             
             // Show the chat overlay
             chatOverlay.classList.add('active');
+            console.log('Added active class to chat overlay');
+            console.log('Chat overlay classes after:', chatOverlay.className);
+            console.log('Chat overlay display style after:', chatOverlay.style.display);
+            console.log('Chat overlay computed display:', window.getComputedStyle(chatOverlay).display);
             
-            // Initialize real SunCo widget
-            initializeDemoSunCo(integrationId, companyName);
+            // Initialize real SunCo widget (businessName for widget config, companyName for display)
+            initializeDemoSunCo(integrationId, businessName);
         }
 
         function updateDemoChatTitle(companyName, industry) {
