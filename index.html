@@ -1002,7 +1002,7 @@
         .chat-header {
             background: linear-gradient(135deg, var(--primary-color, #1a365d) 0%, var(--secondary-color, #2d5aa0) 100%);
             color: white;
-            padding: 14px 18px;
+            padding:0px 18px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -1012,7 +1012,7 @@
         .demo-mode .chat-header {
             background: linear-gradient(135deg, var(--primary-color, #1a365d) 0%, var(--secondary-color, #2d5aa0) 100%);
             color: white;
-            padding: 14px 18px;
+            padding: 0px 18px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -1048,6 +1048,7 @@
                 <h1 style="color: #333; margin: 0;">Mobile App Demo Generator</h1>
                 <div style="display: flex; gap: 10px; align-items: center;">
                     <button onclick="shareConfiguration()" style="background: #667eea; color: white; border: none; padding: 8px 16px; border-radius: 6px; font-size: 14px; cursor: pointer; font-weight: 600;">📤 Share Config</button>
+                    <button onclick="startOver()" style="background: #dc3545; color: white; border: none; padding: 8px 16px; border-radius: 6px; font-size: 14px; cursor: pointer; font-weight: 600; transition: background-color 0.2s;">🔄 Start Over</button>
                     <button onclick="showAboutModal()" style="background: none; border: none; color: #667eea; font-size: 14px; cursor: pointer; text-decoration: underline; padding: 8px 12px; border-radius: 6px; transition: background-color 0.2s;">ℹ️ About this Tool</button>
                 </div>
             </div>
@@ -1111,12 +1112,14 @@
                 </div>
                 
                 <div class="form-group">
-                                            <label for="screenshotUserName">Status Bar Text</label>
-                        <input type="text" id="screenshotUserName" placeholder="Enter status bar text" value="Sample App Name">
+                    <label for="screenshotUserName">Status Bar Text</label>
+                    <input type="text" id="screenshotUserName" placeholder="Enter status bar text" value="Sample App Name">
                     <div style="margin-top: 8px; font-size: 12px; color: #666;">
                         💡 <strong>Tip:</strong> This name will appear in the status bar overlay
                     </div>
                 </div>
+                
+
                 
                 <!-- Image Preview -->
                 <div class="form-group" id="imagePreviewContainer" style="display: none;">
@@ -1174,6 +1177,9 @@
                         <input type="color" id="primaryColor" class="color-input" value="#1a365d">
                         <input type="text" id="primaryColorText" value="#1a365d" placeholder="#1a365d">
                     </div>
+                    <div style="margin-top: 8px; font-size: 12px; color: #666;">
+                        🎯 <strong>Controls:</strong> Status bar, app header gradient, push notification app name & title, notification border
+                    </div>
                 </div>
                 <div class="form-group">
                     <label>Secondary Color</label>
@@ -1181,12 +1187,28 @@
                         <input type="color" id="secondaryColor" class="color-input" value="#2d5aa0">
                         <input type="text" id="secondaryColorText" value="#2d5aa0" placeholder="#2d5aa0">
                     </div>
+                    <div style="margin-top: 8px; font-size: 12px; color: #666;">
+                        🎯 <strong>Controls:</strong> App header gradient, push notification time & message, secondary buttons
+                    </div>
                 </div>
                 <div class="form-group">
                     <label>Accent Color</label>
                     <div class="color-picker">
                         <input type="color" id="accentColor" class="color-input" value="#4299e1">
                         <input type="text" id="accentColorText" value="#4299e1" placeholder="#4299e1">
+                    </div>
+                    <div style="margin-top: 8px; font-size: 12px; color: #666;">
+                        🎯 <strong>Controls:</strong> Push notification icon background, primary buttons, action card icons
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Chat Header Color</label>
+                    <div class="color-picker">
+                        <input type="color" id="chatHeaderColor" class="color-input" value="#4299e1">
+                        <input type="text" id="chatHeaderColorText" value="#4299e1" placeholder="#4299e1">
+                    </div>
+                    <div style="margin-top: 8px; font-size: 12px; color: #666;">
+                        🎯 <strong>Controls:</strong> Chat overlay header background color
                     </div>
                 </div>
             </div>
@@ -1380,7 +1402,7 @@
                     <div class="chat-overlay" id="preview-chat-overlay">
                         <div class="chat-container">
                             <div class="chat-header">
-                                <div class="chat-title" id="previewChatTitle">Contact us</div>
+                                <div class="chat-title" id="previewChatTitle"></div>
                                 <button class="chat-close" onclick="closePreviewChat()">×</button>
                             </div>
                             <div class="chat-content" id="preview-chat-content">
@@ -1544,6 +1566,7 @@
                 primaryColor: "#1a365d",
                 secondaryColor: "#2d5aa0",
                 accentColor: "#4299e1",
+                chatHeaderColor: "#4299e1",
                 userFirstName: "Daisy",
                 userLastName: "Johnson",
                 userEmail: "daisy.johnson@example.com",
@@ -1564,6 +1587,7 @@
                 primaryColor: "#e91e63",
                 secondaryColor: "#f06292",
                 accentColor: "#ff4081",
+                chatHeaderColor: "#ff4081",
                 userFirstName: "Sarah",
                 userLastName: "Johnson",
                 userEmail: "sarah.johnson@email.com",
@@ -1584,6 +1608,7 @@
                 primaryColor: "#ff6b6b",
                 secondaryColor: "#ee5a24",
                 accentColor: "#ff9ff3",
+                chatHeaderColor: "#ff9ff3",
                 userFirstName: "Alex",
                 userLastName: "Chen",
                 userEmail: "alex.chen@email.com",
@@ -1604,6 +1629,7 @@
                 primaryColor: "#48dbfb",
                 secondaryColor: "#0abde3",
                 accentColor: "#54a0ff",
+                chatHeaderColor: "#54a0ff",
                 userFirstName: "Dr. Johnson",
                 userLastName: "Smith",
                 userEmail: "dr.johnson@healthfirst.com",
@@ -1624,6 +1650,7 @@
                 primaryColor: "#8b4513",
                 secondaryColor: "#d2691e",
                 accentColor: "#ffd700",
+                chatHeaderColor: "#ffd700",
                 userFirstName: "Michael",
                 userLastName: "Anderson",
                 userEmail: "michael.anderson@fourseasons.com",
@@ -1643,6 +1670,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             setupEventListeners();
             updatePreview();
+            updateNotificationBannerStyling(); // Initialize notification banner styling
             
             // Pre-load SunCo library to ensure it's available when needed
             preloadSunCo();
@@ -1666,6 +1694,8 @@
                         hideStylingSections();
                         // Clear any existing template data
                         clearTemplateData();
+                        // Update notification banner with screenshot company name
+                        updateNotificationBannerStyling();
                     } else {
                         // Hide screenshot section and show styling sections
                         screenshotSection.style.display = 'none';
@@ -1685,18 +1715,30 @@
             });
 
             // Color picker synchronization
-            ['primary', 'secondary', 'accent'].forEach(colorType => {
+            ['primary', 'secondary', 'accent', 'chatHeader'].forEach(colorType => {
                 const colorInput = document.getElementById(colorType + 'Color');
                 const textInput = document.getElementById(colorType + 'ColorText');
                 
                 colorInput.addEventListener('input', function() {
                     textInput.value = this.value;
                     updatePreview();
+                    updateNotificationBannerStyling(); // Update notification banner colors immediately
+                    
+                    // Also update demo styling if demo mode is active
+                    if (document.getElementById('demoMode').classList.contains('active')) {
+                        updateDemoNotificationBannerStyling();
+                    }
                 });
                 
                 textInput.addEventListener('input', function() {
                     colorInput.value = this.value;
                     updatePreview();
+                    updateNotificationBannerStyling(); // Update notification banner colors immediately
+                    
+                    // Also update demo styling if demo mode is active
+                    if (document.getElementById('demoMode').classList.contains('active')) {
+                        updateDemoNotificationBannerStyling();
+                    }
                 });
             });
 
@@ -1710,6 +1752,12 @@
             // Auto-update business name when company name changes
             document.getElementById('companyName').addEventListener('input', function() {
                 updateBusinessNameFromCompany();
+                updateNotificationBannerStyling(); // Update notification banner company name immediately
+                
+                // Also update demo styling if demo mode is active
+                if (document.getElementById('demoMode').classList.contains('active')) {
+                    updateDemoNotificationBannerStyling();
+                }
             });
 
             // App screenshot URL handling
@@ -1733,6 +1781,8 @@
             document.getElementById('screenshotUserName').addEventListener('input', function() {
                 updatePreview();
             });
+            
+
         }
 
         function loadTemplate(template) {
@@ -1751,6 +1801,8 @@
             document.getElementById('secondaryColorText').value = template.secondaryColor;
             document.getElementById('accentColor').value = template.accentColor;
             document.getElementById('accentColorText').value = template.accentColor;
+            document.getElementById('chatHeaderColor').value = template.chatHeaderColor;
+            document.getElementById('chatHeaderColorText').value = template.chatHeaderColor;
             
             // Load push notification defaults if available
             if (template.pushNotification) {
@@ -1765,6 +1817,8 @@
             }
             
             updatePreview();
+            updateNotificationBannerStyling(); // Update notification banner styling after loading template
+            // App header colors will be updated via updateNotificationBannerStyling()
         }
 
         function updateBusinessNameFromCompany() {
@@ -1795,6 +1849,240 @@
             }
             
             document.getElementById('businessName').value = companyName + businessNameSuffix;
+        }
+
+        function updateNotificationBannerStyling() {
+            // Update notification banner colors in real-time based on brand colors
+            const primaryColor = document.getElementById('primaryColor').value;
+            const secondaryColor = document.getElementById('secondaryColor').value;
+            const accentColor = document.getElementById('accentColor').value;
+            const chatHeaderColor = document.getElementById('chatHeaderColor').value;
+            
+            // Get company name from the main company name field
+            const companyName = document.getElementById('companyName').value || 'Your Company';
+            
+            // Update notification app name and color (primary color)
+            const notificationApp = document.getElementById('previewNotificationApp');
+            if (notificationApp) {
+                notificationApp.textContent = companyName;
+                notificationApp.style.color = primaryColor;
+            }
+            
+            // Update notification title color (primary color)
+            const notificationTitle = document.getElementById('previewNotificationTitle');
+            if (notificationTitle) {
+                notificationTitle.style.color = primaryColor;
+            }
+            
+            // Update notification icon background (accent color gradient)
+            const notificationIcon = document.getElementById('previewNotificationIcon');
+            if (notificationIcon) {
+                notificationIcon.style.background = `linear-gradient(135deg, ${accentColor}, ${adjustBrightness(accentColor, -20)})`;
+            }
+            
+            // Update primary button background (accent color gradient)
+            const primaryButton = document.querySelector('.notification-btn.primary');
+            if (primaryButton) {
+                primaryButton.style.background = `linear-gradient(135deg, ${accentColor}, ${adjustBrightness(accentColor, -20)})`;
+            }
+            
+            // Update secondary button styling (secondary color)
+            const secondaryButton = document.querySelector('.notification-btn.secondary');
+            if (secondaryButton) {
+                secondaryButton.style.borderColor = secondaryColor;
+                secondaryButton.style.color = secondaryColor;
+            }
+            
+            // Update notification banner background with brand color tint
+            const notificationBanner = document.getElementById('preview-push-notification');
+            if (notificationBanner) {
+                // Add a subtle brand color tint to the notification background
+                notificationBanner.style.borderLeft = `4px solid ${primaryColor}`;
+                // Optional: Add a very subtle background tint
+                notificationBanner.style.background = `rgba(255, 255, 255, 0.98), linear-gradient(90deg, ${primaryColor}08, transparent)`;
+            }
+            
+            // Update CSS variables for consistent color control
+            document.documentElement.style.setProperty('--primary-color', primaryColor);
+            document.documentElement.style.setProperty('--secondary-color', secondaryColor);
+            document.documentElement.style.setProperty('--accent-color', accentColor);
+            
+            // Update notification time color (secondary color)
+            const notificationTime = document.querySelector('.notification-time');
+            if (notificationTime) {
+                notificationTime.style.color = secondaryColor;
+            }
+            
+            // Update notification message color (secondary color for better readability)
+            const notificationMessage = document.getElementById('previewNotificationMessage');
+            if (notificationMessage) {
+                notificationMessage.style.color = adjustBrightness(secondaryColor, -30);
+            }
+            
+            // Update chat header background color
+            const chatHeader = document.querySelector('.chat-header');
+            if (chatHeader) {
+                chatHeader.style.background = chatHeaderColor;
+            }
+            
+            // Update app header colors in real-time
+            updateAppHeaderColors(primaryColor, secondaryColor);
+        }
+        
+        function updateAppHeaderColors(primaryColor, secondaryColor) {
+            // Update the app header background gradient in real-time
+            const appHeader = document.querySelector('.app-header');
+            if (appHeader) {
+                appHeader.style.background = `linear-gradient(135deg, ${primaryColor} 0%, ${secondaryColor} 100%)`;
+            }
+            
+            // Update status bar background (primary color)
+            const statusBar = document.querySelector('.status-bar');
+            if (statusBar) {
+                statusBar.style.background = primaryColor;
+            }
+            
+            // Update welcome title color (primary color)
+            const welcomeTitle = document.getElementById('previewWelcomeTitle');
+            if (welcomeTitle) {
+                welcomeTitle.style.color = primaryColor;
+            }
+            
+            // Update action card title colors (primary color)
+            const actionTitles = document.querySelectorAll('.action-title');
+            actionTitles.forEach(title => {
+                title.style.color = primaryColor;
+            });
+            
+            // Update action card icon backgrounds (accent color gradient)
+            const actionIcons = document.querySelectorAll('.action-icon');
+            const accentColor = document.getElementById('accentColor').value;
+            actionIcons.forEach(icon => {
+                icon.style.background = `linear-gradient(135deg, ${accentColor}, ${adjustBrightness(accentColor, -20)})`;
+            });
+        }
+        
+        function updateDemoNotificationBannerStyling() {
+            // Apply notification banner styling to demo mode elements
+            const primaryColor = document.getElementById('primaryColor').value;
+            const secondaryColor = document.getElementById('secondaryColor').value;
+            const accentColor = document.getElementById('accentColor').value;
+            const chatHeaderColor = document.getElementById('chatHeaderColor').value;
+            
+            // Get company name from the main company name field
+            const companyName = document.getElementById('companyName').value || 'Your Company';
+            
+            // Find demo notification elements
+            const demoNotificationApp = document.querySelector('#demoPhoneScreen .notification-app');
+            const demoNotificationTitle = document.querySelector('#demoPhoneScreen .notification-title');
+            const demoNotificationIcon = document.querySelector('#demoPhoneScreen .notification-icon');
+            const demoPrimaryButton = document.querySelector('#demoPhoneScreen .notification-btn.primary');
+            const demoSecondaryButton = document.querySelector('#demoPhoneScreen .notification-btn.secondary');
+            const demoNotificationTime = document.querySelector('#demoPhoneScreen .notification-time');
+            const demoNotificationMessage = document.querySelector('#demoPhoneScreen .notification-message');
+            const demoNotificationBanner = document.querySelector('#demoPhoneScreen .push-notification');
+            
+            // Update demo notification app name and color (primary color)
+            if (demoNotificationApp) {
+                demoNotificationApp.textContent = companyName;
+                demoNotificationApp.style.color = primaryColor;
+            }
+            
+            // Update demo notification title color (primary color)
+            if (demoNotificationTitle) {
+                demoNotificationTitle.style.color = primaryColor;
+            }
+            
+            // Update demo notification icon background (accent color gradient)
+            if (demoNotificationIcon) {
+                demoNotificationIcon.style.background = `linear-gradient(135deg, ${accentColor}, ${adjustBrightness(accentColor, -20)})`;
+            }
+            
+            // Update demo primary button background (accent color gradient)
+            if (demoPrimaryButton) {
+                demoPrimaryButton.style.background = `linear-gradient(135deg, ${accentColor}, ${adjustBrightness(accentColor, -20)})`;
+            }
+            
+            // Update demo secondary button styling (secondary color)
+            if (demoSecondaryButton) {
+                demoSecondaryButton.style.borderColor = secondaryColor;
+                demoSecondaryButton.style.color = secondaryColor;
+            }
+            
+            // Update demo notification banner background with brand color tint
+            if (demoNotificationBanner) {
+                // Add a subtle brand color tint to the notification background
+                demoNotificationBanner.style.borderLeft = `4px solid ${primaryColor}`;
+                // Optional: Add a very subtle background tint
+                demoNotificationBanner.style.background = `rgba(255, 255, 255, 0.98), linear-gradient(90deg, ${primaryColor}08, transparent)`;
+            }
+            
+            // Update CSS variables for consistent color control in demo mode
+            document.documentElement.style.setProperty('--primary-color', primaryColor);
+            document.documentElement.style.setProperty('--secondary-color', secondaryColor);
+            document.documentElement.style.setProperty('--accent-color', accentColor);
+            
+            // Update demo notification time color (secondary color)
+            if (demoNotificationTime) {
+                demoNotificationTime.style.color = secondaryColor;
+            }
+            
+            // Update demo notification message color (secondary color for better readability)
+            if (demoNotificationMessage) {
+                demoNotificationMessage.style.color = adjustBrightness(secondaryColor, -30);
+            }
+            
+            // Update demo chat header background color
+            const demoChatHeader = document.querySelector('#demoPhoneScreen .chat-header');
+            if (demoChatHeader) {
+                demoChatHeader.style.background = chatHeaderColor;
+            }
+            
+            // Also update demo app header colors
+            updateDemoAppHeaderColors(primaryColor, secondaryColor, accentColor);
+        }
+        
+        function updateDemoAppHeaderColors(primaryColor, secondaryColor, accentColor) {
+            // Update demo app header background gradient
+            const demoAppHeader = document.querySelector('#demoPhoneScreen .app-header');
+            if (demoAppHeader) {
+                demoAppHeader.style.background = `linear-gradient(135deg, ${primaryColor} 0%, ${secondaryColor} 100%)`;
+            }
+            
+            // Update demo status bar background (primary color)
+            const demoStatusBar = document.querySelector('#demoPhoneScreen .status-bar');
+            if (demoStatusBar) {
+                demoStatusBar.style.background = primaryColor;
+            }
+            
+            // Update demo welcome title color (primary color)
+            const demoWelcomeTitle = document.querySelector('#demoPhoneScreen .welcome-title');
+            if (demoWelcomeTitle) {
+                demoWelcomeTitle.style.color = primaryColor;
+            }
+            
+            // Update demo action card title colors (primary color)
+            const demoActionTitles = document.querySelectorAll('#demoPhoneScreen .action-title');
+            demoActionTitles.forEach(title => {
+                title.style.color = primaryColor;
+            });
+            
+            // Update demo action card icon backgrounds (accent color gradient)
+            const demoActionIcons = document.querySelectorAll('#demoPhoneScreen .action-icon');
+            demoActionIcons.forEach(icon => {
+                icon.style.background = `linear-gradient(135deg, ${accentColor}, ${adjustBrightness(accentColor, -20)})`;
+            });
+        }
+
+        function adjustBrightness(hex, percent) {
+            // Helper function to adjust color brightness for gradients
+            const num = parseInt(hex.replace('#', ''), 16);
+            const amt = Math.round(2.55 * percent);
+            const R = (num >> 16) + amt;
+            const G = (num >> 8 & 0x00FF) + amt;
+            const B = (num & 0x0000FF) + amt;
+            return '#' + (0x1000000 + (R < 255 ? R < 1 ? 0 : R : 255) * 0x10000 +
+                (G < 255 ? G < 1 ? 0 : G : 255) * 0x100 + (B < 255 ? B < 1 ? 0 : B : 255)).toString(16).slice(1);
         }
 
         function handleAppScreenshotUrl(url) {
@@ -1899,7 +2187,71 @@
             const successMessage = document.querySelector('.success-message');
             if (successMessage) successMessage.remove();
             
+            // Clear the screenshot from the phone screen preview
+            const phoneScreen = document.getElementById('previewScreen');
+            if (phoneScreen) {
+                // Restore the original phone screen structure
+                phoneScreen.innerHTML = `
+                    <div class="status-bar">
+                        <span>9:41</span>
+                        <span id="previewCompanyName">Your Company</span>
+                        <span>82%</span>
+                    </div>
+                    
+                    <div class="app-header">
+                        <div class="logo" id="previewLogo">Your Company</div>
+                        <div class="tagline" id="previewTagline">Your tagline here</div>
+                    </div>
+                    
+                    <div class="main-content" id="previewContent">
+                        <div class="welcome-title" id="previewWelcomeTitle">Welcome back, User!</div>
+                        <div class="welcome-subtitle" id="previewWelcomeSubtitle">Let's get you started</div>
+                        <div class="progress-bar">
+                            <div class="progress-fill"></div>
+                        </div>
+                        <div class="action-grid" id="previewActions">
+                            <!-- Action cards will be populated by updateUILayout() -->
+                        </div>
+                    </div>
+                    
+                    <!-- Push Notification in Preview -->
+                    <div class="push-notification" id="preview-push-notification">
+                        <div class="notification-header">
+                            <div class="notification-icon" id="previewNotificationIcon">🏠</div>
+                            <div class="notification-app" id="previewNotificationApp">Your Company</div>
+                            <div class="notification-time">now</div>
+                        </div>
+                        <div class="notification-title" id="previewNotificationTitle">Welcome back, User! 👋</div>
+                        <div class="notification-message" id="previewNotificationMessage">Let's get started</div>
+                        <div class="notification-actions">
+                            <button class="notification-btn primary" onclick="handleNotificationChatClick()">Learn More</button>
+                            <button class="notification-btn secondary" onclick="dismissPreviewNotification()">Dismiss</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Bottom Overlay to Cover Homepage Icons -->
+                    <div class="bottom-overlay" id="preview-bottom-overlay"></div>
+                    
+                    <!-- SunCo Chat Overlay for Preview -->
+                    <div class="chat-overlay" id="preview-chat-overlay">
+                        <div class="chat-container">
+                            <div class="chat-header">
+                                <div class="chat-title" id="previewChatTitle"></div>
+                                <button class="chat-close" onclick="closePreviewChat()">×</button>
+                            </div>
+                            <div class="chat-content" id="preview-chat-content">
+                                <!-- Real SunCo widget will be loaded here -->
+                                <div id="preview-sunco-container" style="height: 100%; width: 100%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+            
             updatePreview();
+            
+            // Update notification banner styling after restoring phone screen
+            updateNotificationBannerStyling();
         }
 
         function testSampleImage() {
@@ -1960,16 +2312,17 @@
             document.documentElement.style.setProperty('--secondary-color', secondaryColor);
             document.documentElement.style.setProperty('--accent-color', accentColor);
             
+            // Update notification banner styling
+            updateNotificationBannerStyling();
+            
             // Update UI layout based on selected industry
             updateUILayout();
         }
 
         function hideStylingSections() {
             // Hide styling-related sections when screenshot mode is selected
-            // Keep push notification section visible for screenshot mode
+            // Keep company info, brand colors, and push notification sections visible for screenshot mode
             const sectionsToHide = [
-                'companyInfoSection',
-                'brandColorsSection', 
                 'userInfoSection'
             ];
             
@@ -1979,6 +2332,22 @@
                     section.style.display = 'none';
                 }
             });
+            
+            // Keep company info and brand colors sections visible for notification banner styling
+            const companyInfoSection = document.getElementById('companyInfoSection');
+            const brandColorsSection = document.getElementById('brandColorsSection');
+            if (companyInfoSection) {
+                companyInfoSection.style.display = 'block';
+            }
+            if (brandColorsSection) {
+                brandColorsSection.style.display = 'block';
+            }
+            
+            // Hide company tagline field in screenshot mode (not needed for screenshots)
+            const companyTaglineField = document.getElementById('companyTagline').closest('.form-group');
+            if (companyTaglineField) {
+                companyTaglineField.style.display = 'none';
+            }
             
             // Update section numbering for remaining sections
             updateSectionNumbering();
@@ -2000,6 +2369,12 @@
                 }
             });
             
+            // Show company tagline field in other modes
+            const companyTaglineField = document.getElementById('companyTagline').closest('.form-group');
+            if (companyTaglineField) {
+                companyTaglineField.style.display = 'block';
+            }
+            
             // Update section numbering for all sections
             updateSectionNumbering();
         }
@@ -2009,16 +2384,34 @@
             let sectionNumber = 2; // Start from 2 since section 1 is always the industry selection
             
             if (selectedIndustry === 'screenshot') {
-                // In screenshot mode, push notification section is visible after screenshot section
+                // In screenshot mode, company info, brand colors, and push notification sections are visible
+                const companyInfoSection = document.getElementById('companyInfoSection');
+                const brandColorsSection = document.getElementById('brandColorsSection');
                 const messagingSectionTitle = document.getElementById('messagingSectionTitle');
                 const pushNotificationSection = document.getElementById('pushNotificationSection');
+                
+                if (companyInfoSection) {
+                    const companyInfoTitle = companyInfoSection.querySelector('.section-title');
+                    if (companyInfoTitle) {
+                        companyInfoTitle.textContent = '2. Company Information';
+                    }
+                }
+                
+                if (brandColorsSection) {
+                    const brandColorsTitle = brandColorsSection.querySelector('.section-title');
+                    if (brandColorsTitle) {
+                        brandColorsTitle.textContent = '3. Brand Colors';
+                    }
+                }
+                
                 if (messagingSectionTitle) {
                     messagingSectionTitle.textContent = '4. Messaging Details';
                 }
+                
                 if (pushNotificationSection) {
                     const pushNotificationTitle = pushNotificationSection.querySelector('.section-title');
                     if (pushNotificationTitle) {
-                        pushNotificationTitle.textContent = '3. Push Notification Message';
+                        pushNotificationTitle.textContent = '5. Push Notification Message';
                     }
                 }
             } else {
@@ -2039,8 +2432,8 @@
 
         function clearTemplateData() {
             // Clear form fields when switching to screenshot mode
-            // Keep push notification fields available for configuration
-            document.getElementById('companyName').value = '';
+            // Keep company name and push notification fields available for configuration
+            document.getElementById('companyName').value = ''; // Clear company name for fresh input
             document.getElementById('companyTagline').value = '';
             document.getElementById('userFirstName').value = '';
             document.getElementById('userLastName').value = '';
@@ -2056,6 +2449,7 @@
             document.getElementById('accentColorText').value = '#4299e1';
             
             updatePreview();
+            updateNotificationBannerStyling(); // Update notification banner with company name
         }
 
         function updateAppScreenshotInPreview() {
@@ -2161,7 +2555,7 @@
             chatOverlay.innerHTML = `
                 <div class="chat-container">
                     <div class="chat-header">
-                        <div class="chat-title" id="previewChatTitle">Contact us</div>
+                        <div class="chat-title" id="previewChatTitle"></div>
                         <button class="chat-close" onclick="closePreviewChat()">×</button>
                     </div>
                     <div class="chat-content" id="preview-chat-content">
@@ -2213,7 +2607,7 @@
             chatOverlay.innerHTML = `
                 <div class="chat-container">
                     <div class="chat-header">
-                        <div class="chat-title">Contact us</div>
+                        <div class="chat-title"></div>
                         <button class="chat-close" onclick="closeDemoChat()">×</button>
                     </div>
                     <div class="chat-content">
@@ -2691,12 +3085,15 @@
                 if (notificationTitle) notificationTitle.textContent = `Welcome back, ${userFirstName}! 👋`;
                 if (notificationMessage) notificationMessage.textContent = `Continue your ${applicationStage.toLowerCase()} process`;
             }
+            
+            // Update notification banner styling to ensure colors are applied
+            updateNotificationBannerStyling();
         }
 
         function testSunCoChat() {
             const chatOverlay = document.getElementById('preview-chat-overlay');
             const bottomOverlay = document.getElementById('preview-bottom-overlay');
-            const companyName = document.getElementById('businessName').value || 'Your Company';
+            const companyName = document.getElementById('companyName').value || 'Your Company';
             const integrationId = document.getElementById('integrationId').value || '68124ef7dc2c6664100ff708';
             const industry = getSelectedIndustry();
             
@@ -2918,6 +3315,9 @@
             // Update demo phone content with current configuration
             updateDemoContent();
             
+            // Apply notification banner styling to demo mode
+            updateDemoNotificationBannerStyling();
+            
             // Show demo mode
             demoMode.classList.add('active');
             
@@ -3136,7 +3536,7 @@
 
         function demoTestChat() {
             const chatOverlay = document.getElementById('demoPhoneScreen').querySelector('.chat-overlay');
-            const companyName = document.getElementById('businessName').value || 'Your Company';
+            const companyName = document.getElementById('companyName').value || 'Your Company';
             const integrationId = document.getElementById('integrationId').value || '68124ef7dc2c6664100ff708';
             const industry = getSelectedIndustry();
             
@@ -3675,6 +4075,167 @@
             loadConfigurationFromURL();
         });
 
+        // Start Over Function
+        function startOver() {
+            // Show confirmation dialog
+            if (confirm('Are you sure you want to start over? This will clear all your current configuration and reset everything to default values.')) {
+                // Clear all form fields
+                clearAllFields();
+                
+                // Reset industry selection
+                resetIndustrySelection();
+                
+                // Reset preview to default state
+                resetPreviewToDefault();
+                
+                // Show success notification
+                showNotification('Configuration reset! Starting fresh...', 'success');
+                
+                // Clear URL parameters
+                if (window.history.replaceState) {
+                    window.history.replaceState({}, document.title, window.location.pathname);
+                }
+            }
+        }
+        
+        function clearAllFields() {
+            // Clear basic fields
+            document.getElementById('integrationId').value = '';
+            document.getElementById('businessName').value = '';
+            document.getElementById('businessIconUrl').value = '';
+            
+            // Clear company information
+            document.getElementById('companyName').value = '';
+            document.getElementById('companyTagline').value = '';
+            
+            // Reset brand colors to defaults
+            const defaultColors = {
+                primary: '#1a365d',
+                secondary: '#2d5aa0',
+                accent: '#4299e1',
+                chatHeader: '#4299e1'
+            };
+            
+            document.getElementById('primaryColor').value = defaultColors.primary;
+            document.getElementById('primaryColorText').value = defaultColors.primary;
+            document.getElementById('secondaryColor').value = defaultColors.secondary;
+            document.getElementById('secondaryColorText').value = defaultColors.secondary;
+            document.getElementById('accentColor').value = defaultColors.accent;
+            document.getElementById('accentColorText').value = defaultColors.accent;
+            document.getElementById('chatHeaderColor').value = defaultColors.chatHeader;
+            document.getElementById('chatHeaderColorText').value = defaultColors.chatHeader;
+            
+            // Clear user information
+            document.getElementById('userFirstName').value = '';
+            document.getElementById('userLastName').value = '';
+            document.getElementById('userEmail').value = '';
+            document.getElementById('applicationProgress').value = '0';
+            document.getElementById('applicationStage').value = '';
+            
+            // Clear screenshot fields
+            document.getElementById('appScreenshotUrl').value = '';
+            document.getElementById('screenshotUserName').value = 'Sample App Name';
+            document.getElementById('imagePreviewContainer').style.display = 'none';
+            
+            // Clear push notification fields
+            document.getElementById('pushNotificationIcon').value = '';
+            document.getElementById('pushNotificationTitle').value = '';
+            document.getElementById('pushNotificationMessage').value = '';
+            
+            // Clear any error or success messages
+            const errorMessage = document.querySelector('.error-message');
+            if (errorMessage) errorMessage.remove();
+            
+            const successMessage = document.querySelector('.success-message');
+            if (successMessage) successMessage.remove();
+        }
+        
+        function resetIndustrySelection() {
+            // Clear all template selections
+            document.querySelectorAll('.template-card').forEach(card => card.classList.remove('selected'));
+            
+            // Select default industry (banking)
+            const defaultCard = document.querySelector('[data-industry="banking"]');
+            if (defaultCard) {
+                defaultCard.classList.add('selected');
+            }
+            
+            // Show all styling sections
+            showStylingSections();
+            
+            // Hide screenshot section
+            const screenshotSection = document.getElementById('screenshotSection');
+            if (screenshotSection) {
+                screenshotSection.style.display = 'none';
+            }
+        }
+        
+        function resetPreviewToDefault() {
+            // Restore the original phone screen structure
+            const phoneScreen = document.getElementById('previewScreen');
+            if (phoneScreen) {
+                phoneScreen.innerHTML = `
+                    <div class="status-bar">
+                        <span>9:41</span>
+                        <span id="previewCompanyName">Your Company</span>
+                        <span>82%</span>
+                    </div>
+                    
+                    <div class="app-header">
+                        <div class="logo" id="previewLogo">Your Company</div>
+                        <div class="tagline" id="previewTagline">Your tagline here</div>
+                    </div>
+                    
+                    <div class="main-content" id="previewContent">
+                        <div class="welcome-title" id="previewWelcomeTitle">Welcome back, User!</div>
+                        <div class="welcome-subtitle" id="previewWelcomeSubtitle">Let's get you started</div>
+                        <div class="progress-bar">
+                            <div class="progress-fill"></div>
+                        </div>
+                        <div class="action-grid" id="previewActions">
+                            <!-- Action cards will be populated by updateUILayout() -->
+                        </div>
+                    </div>
+                    
+                    <!-- Push Notification in Preview -->
+                    <div class="push-notification" id="preview-push-notification">
+                        <div class="notification-header">
+                            <div class="notification-icon" id="previewNotificationIcon">🏠</div>
+                            <div class="notification-app" id="previewNotificationApp">Your Company</div>
+                            <div class="notification-time">now</div>
+                        </div>
+                        <div class="notification-title" id="previewNotificationTitle">Welcome back, User! 👋</div>
+                        <div class="notification-message" id="previewNotificationMessage">Let's get started</div>
+                        <div class="notification-actions">
+                            <button class="notification-btn primary" onclick="handleNotificationChatClick()">Learn More</button>
+                            <button class="notification-btn secondary" onclick="dismissPreviewNotification()">Dismiss</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Bottom Overlay to Cover Homepage Icons -->
+                    <div class="bottom-overlay" id="preview-bottom-overlay"></div>
+                    
+                    <!-- SunCo Chat Overlay for Preview -->
+                    <div class="chat-overlay" id="preview-chat-overlay">
+                        <div class="chat-container">
+                            <div class="chat-header">
+                                <div class="chat-title" id="previewChatTitle"></div>
+                                <button class="chat-close" onclick="closePreviewChat()">×</button>
+                            </div>
+                            <div class="chat-content" id="preview-chat-content">
+                                <!-- Real SunCo widget will be loaded here -->
+                                <div id="preview-sunco-container" style="height: 100%; width: 100%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            // Update preview and styling
+            updatePreview();
+            updateNotificationBannerStyling();
+        }
+
         // Configuration Sharing Functions
         function shareConfiguration() {
             const config = getCurrentConfiguration();
@@ -3705,29 +4266,32 @@
                 businessIconUrl: document.getElementById('businessIconUrl').value
             };
             
+            // Always include brand colors (needed for notification banner styling in all modes)
+            config.primaryColor = document.getElementById('primaryColor').value;
+            config.secondaryColor = document.getElementById('secondaryColor').value;
+            config.accentColor = document.getElementById('accentColor').value;
+            config.chatHeaderColor = document.getElementById('chatHeaderColor').value;
+            
+            // Always include push notification configuration (available in all modes)
+            config.pushNotificationIcon = document.getElementById('pushNotificationIcon').value;
+            config.pushNotificationTitle = document.getElementById('pushNotificationTitle').value;
+            config.pushNotificationMessage = document.getElementById('pushNotificationMessage').value;
+            
+            // Always include company name (used in notification banner for all modes)
+            config.companyName = document.getElementById('companyName').value;
+            
             // Add industry-specific fields
             if (selectedIndustry !== 'screenshot') {
-                config.companyName = document.getElementById('companyName').value;
                 config.companyTagline = document.getElementById('companyTagline').value;
-                config.primaryColor = document.getElementById('primaryColor').value;
-                config.secondaryColor = document.getElementById('secondaryColor').value;
-                config.accentColor = document.getElementById('accentColor').value;
                 config.userFirstName = document.getElementById('userFirstName').value;
                 config.userLastName = document.getElementById('userLastName').value;
                 config.userEmail = document.getElementById('userEmail').value;
                 config.applicationProgress = document.getElementById('applicationProgress').value;
                 config.applicationStage = document.getElementById('applicationStage').value;
-                config.pushNotificationIcon = document.getElementById('pushNotificationIcon').value;
-                config.pushNotificationTitle = document.getElementById('pushNotificationTitle').value;
-                config.pushNotificationMessage = document.getElementById('pushNotificationMessage').value;
             } else {
                 // Screenshot-specific fields
                 config.appScreenshotUrl = document.getElementById('appScreenshotUrl').value;
                 config.screenshotUserName = document.getElementById('screenshotUserName').value;
-                // Include push notification configuration for screenshot mode
-                config.pushNotificationIcon = document.getElementById('pushNotificationIcon').value;
-                config.pushNotificationTitle = document.getElementById('pushNotificationTitle').value;
-                config.pushNotificationMessage = document.getElementById('pushNotificationMessage').value;
             }
             
             return config;
@@ -3775,30 +4339,40 @@
             if (config.businessName) document.getElementById('businessName').value = config.businessName;
             if (config.businessIconUrl) document.getElementById('businessIconUrl').value = config.businessIconUrl;
             
+            // Always apply brand colors (needed for notification banner styling in all modes)
+            if (config.primaryColor) {
+                document.getElementById('primaryColor').value = config.primaryColor;
+                document.getElementById('primaryColorText').value = config.primaryColor;
+            }
+            if (config.secondaryColor) {
+                document.getElementById('secondaryColor').value = config.secondaryColor;
+                document.getElementById('secondaryColorText').value = config.secondaryColor;
+            }
+            if (config.accentColor) {
+                document.getElementById('accentColor').value = config.accentColor;
+                document.getElementById('accentColorText').value = config.accentColor;
+            }
+            if (config.chatHeaderColor) {
+                document.getElementById('chatHeaderColor').value = config.chatHeaderColor;
+                document.getElementById('chatHeaderColorText').value = config.chatHeaderColor;
+            }
+            
+            // Always apply company name (used in notification banner for all modes)
+            if (config.companyName) document.getElementById('companyName').value = config.companyName;
+            
+            // Always apply push notification configuration (available in all modes)
+            if (config.pushNotificationIcon) document.getElementById('pushNotificationIcon').value = config.pushNotificationIcon;
+            if (config.pushNotificationTitle) document.getElementById('pushNotificationTitle').value = config.pushNotificationTitle;
+            if (config.pushNotificationMessage) document.getElementById('pushNotificationMessage').value = config.pushNotificationMessage;
+            
             // Apply industry-specific fields
             if (config.industry !== 'screenshot') {
-                if (config.companyName) document.getElementById('companyName').value = config.companyName;
                 if (config.companyTagline) document.getElementById('companyTagline').value = config.companyTagline;
-                if (config.primaryColor) {
-                    document.getElementById('primaryColor').value = config.primaryColor;
-                    document.getElementById('primaryColorText').value = config.primaryColor;
-                }
-                if (config.secondaryColor) {
-                    document.getElementById('secondaryColor').value = config.secondaryColor;
-                    document.getElementById('secondaryColorText').value = config.secondaryColor;
-                }
-                if (config.accentColor) {
-                    document.getElementById('accentColor').value = config.accentColor;
-                    document.getElementById('accentColorText').value = config.accentColor;
-                }
                 if (config.userFirstName) document.getElementById('userFirstName').value = config.userFirstName;
                 if (config.userLastName) document.getElementById('userLastName').value = config.userLastName;
                 if (config.userEmail) document.getElementById('userEmail').value = config.userEmail;
                 if (config.applicationProgress) document.getElementById('applicationProgress').value = config.applicationProgress;
                 if (config.applicationStage) document.getElementById('applicationStage').value = config.applicationStage;
-                if (config.pushNotificationIcon) document.getElementById('pushNotificationIcon').value = config.pushNotificationIcon;
-                if (config.pushNotificationTitle) document.getElementById('pushNotificationTitle').value = config.pushNotificationTitle;
-                if (config.pushNotificationMessage) document.getElementById('pushNotificationMessage').value = config.pushNotificationMessage;
             } else {
                 // Apply screenshot-specific fields
                 if (config.appScreenshotUrl) {
@@ -3806,14 +4380,13 @@
                     handleAppScreenshotUrl(config.appScreenshotUrl);
                 }
                 if (config.screenshotUserName) document.getElementById('screenshotUserName').value = config.screenshotUserName;
-                // Apply push notification configuration for screenshot mode
-                if (config.pushNotificationIcon) document.getElementById('pushNotificationIcon').value = config.pushNotificationIcon;
-                if (config.pushNotificationTitle) document.getElementById('pushNotificationTitle').value = config.pushNotificationTitle;
-                if (config.pushNotificationMessage) document.getElementById('pushNotificationMessage').value = config.pushNotificationMessage;
             }
             
             // Update preview
             updatePreview();
+            
+            // Update notification banner styling with loaded configuration
+            updateNotificationBannerStyling();
         }
 
         function showNotification(message, type) {
