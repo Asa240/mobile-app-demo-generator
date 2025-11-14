@@ -2036,9 +2036,29 @@
 
             // User authentication toggle
             const enableAuthElement = document.getElementById('enableAuthentication');
+            const toggleLabel = enableAuthElement ? enableAuthElement.closest('.toggle-container') : null;
+            
             if (enableAuthElement) {
                 enableAuthElement.addEventListener('change', function () {
                     toggleAuthenticationFields();
+                });
+                
+                // Initialize toggle state on page load
+                if (enableAuthElement.checked) {
+                    const toggleSwitch = document.querySelector('.toggle-switch');
+                    if (toggleSwitch) {
+                        toggleSwitch.classList.add('active');
+                    }
+                }
+            }
+            
+            // Handle toggle label clicks
+            if (toggleLabel) {
+                toggleLabel.addEventListener('click', function(e) {
+                    // Only handle clicks if they're not on the hidden checkbox
+                    if (e.target !== enableAuthElement) {
+                        toggleAuthentication();
+                    }
                 });
             }
 
