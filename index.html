@@ -2002,7 +2002,7 @@
 
             // Real-time preview updates
             ['companyName', 'companyTagline', 'userFirstName', 'userLastName', 'userEmail',
-                'integrationId', 'businessName', 'applicationProgress', 'applicationStage',
+                'integrationId', 'businessName', 'businessIconUrl', 'applicationProgress', 'applicationStage',
                 'pushNotificationTitle', 'pushNotificationMessage', 'pushNotificationIcon'].forEach(id => {
                     document.getElementById(id).addEventListener('input', updatePreview);
                 });
@@ -2010,6 +2010,16 @@
             // Auto-update business name when company name changes
             document.getElementById('companyName').addEventListener('input', function () {
                 updateBusinessNameFromCompany();
+            });
+
+            // Auto-populate authentication fields when user info changes
+            ['userFirstName', 'userLastName', 'userEmail'].forEach(id => {
+                document.getElementById(id).addEventListener('input', function () {
+                    const enableAuthElement = document.getElementById('enableAuthentication');
+                    if (enableAuthElement && enableAuthElement.checked) {
+                        populateAuthFieldsFromUserInfo();
+                    }
+                });
             });
 
             // App screenshot URL handling
@@ -2090,6 +2100,10 @@
                 document.getElementById('authExternalId').value = template.authentication.externalId || '';
                 document.getElementById('authUserProperties').value = template.authentication.userProperties ? JSON.stringify(template.authentication.userProperties, null, 2) : '';
                 toggleAuthenticationFields();
+                // Populate auth fields from user info if not provided in template
+                if (!template.authentication.userName || !template.authentication.userEmail) {
+                    populateAuthFieldsFromUserInfo();
+                }
             } else {
                 // Clear authentication fields and disable
                 document.getElementById('enableAuthentication').checked = false;
@@ -2497,15 +2511,22 @@
             const userLastName = userLastNameEl.value;
             const userEmail = userEmailEl.value;
 
+            // Always populate auth fields with user info (unless user has manually entered different values)
             if (userFirstName || userLastName) {
                 const fullName = [userFirstName, userLastName].filter(Boolean).join(' ');
-                if (fullName && !authUserNameEl.value) {
+                if (fullName) {
                     authUserNameEl.value = fullName;
                 }
+            } else {
+                // Clear auth user name if no user name is provided
+                authUserNameEl.value = '';
             }
 
-            if (userEmail && !authUserEmailEl.value) {
+            if (userEmail) {
                 authUserEmailEl.value = userEmail;
+            } else {
+                // Clear auth email if no user email is provided
+                authUserEmailEl.value = '';
             }
         }
 
@@ -4343,7 +4364,8 @@
                 },
                 messaging: {
                     integrationId: document.getElementById('integrationId').value,
-                    businessName: document.getElementById('businessName').value
+                    businessName: document.getElementById('businessName').value,
+                    businessIconUrl: document.getElementById('businessIconUrl').value
                 },
                 authentication: {
                     enabled: document.getElementById('enableAuthentication').checked,
@@ -4457,6 +4479,7 @@
             if (config.messaging) {
                 document.getElementById('integrationId').value = config.messaging.integrationId || '';
                 document.getElementById('businessName').value = config.messaging.businessName || '';
+                document.getElementById('businessIconUrl').value = config.messaging.businessIconUrl || '';
             }
 
             // Apply authentication settings
