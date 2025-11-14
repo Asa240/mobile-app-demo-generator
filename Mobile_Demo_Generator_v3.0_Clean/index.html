@@ -1065,6 +1065,57 @@
             height: calc(100% - 56px);
             position: relative;
         }
+
+        /* Toggle Switch Styles */
+        .toggle-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .toggle-switch {
+            position: relative;
+            width: 50px;
+            height: 24px;
+            background-color: #e1e5e9;
+            border-radius: 24px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .toggle-switch.active {
+            background-color: #667eea;
+        }
+
+        .toggle-switch::before {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 20px;
+            height: 20px;
+            background-color: white;
+            border-radius: 50%;
+            transition: transform 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .toggle-switch.active::before {
+            transform: translateX(26px);
+        }
+
+        .toggle-switch:hover {
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .toggle-label {
+            font-weight: 600;
+            color: #555;
+            margin: 0;
+            user-select: none;
+            cursor: pointer;
+        }
     </style>
 </head>
 
@@ -1308,12 +1359,15 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="enableAuthentication">
-                        <input type="checkbox" id="enableAuthentication"
-                            style="margin-right: 8px; transform: scale(1.2);">
-                        Enable User Authentication (JWT)
-                    </label>
-                    <div style="font-size: 12px; color: #666; margin-top: 4px; margin-left: 24px;">
+                    <div class="toggle-container">
+                        <label for="enableAuthentication" class="toggle-label">
+                            Enable User Authentication (JWT)
+                        </label>
+                        <div class="toggle-switch" id="toggleSwitch" onclick="toggleAuthentication()">
+                            <input type="checkbox" id="enableAuthentication" style="display: none;">
+                        </div>
+                    </div>
+                    <div style="font-size: 12px; color: #666; margin-top: 8px;">
                         When enabled, the demo will use JWT authentication for personalized messaging
                     </div>
                 </div>
@@ -2453,6 +2507,27 @@
             if (userEmail && !authUserEmailEl.value) {
                 authUserEmailEl.value = userEmail;
             }
+        }
+
+        // Toggle Authentication Function
+        function toggleAuthentication() {
+            const checkbox = document.getElementById('enableAuthentication');
+            const toggleSwitch = document.getElementById('toggleSwitch');
+            
+            if (!checkbox || !toggleSwitch) {
+                console.warn('Authentication toggle elements not found');
+                return;
+            }
+            
+            checkbox.checked = !checkbox.checked;
+            
+            if (checkbox.checked) {
+                toggleSwitch.classList.add('active');
+            } else {
+                toggleSwitch.classList.remove('active');
+            }
+            
+            toggleAuthenticationFields();
         }
 
         // JWT Helper Functions for proper HMAC-SHA256 signing
